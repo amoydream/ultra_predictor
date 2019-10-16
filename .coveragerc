@@ -1,0 +1,5 @@
+[run]
+include = ultra_predictor/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
