@@ -8,7 +8,7 @@ newapp:
 	docker-compose -f local.yml run --rm django python manage.py startapp  ${app}
 
 makemigrations:
-	docker-compose -f local.yml run --rm django python manage.py makemigration
+	docker-compose -f local.yml run --rm django python manage.py makemigrations
 
 migrate:
 	docker-compose -f local.yml run --rm django python manage.py migrate
@@ -16,6 +16,8 @@ migrate:
 createsuperuser:
 	docker-compose -f local.yml run --rm django python manage.py createsuperuser
 
+shell:
+	docker-compose -f local.yml run --rm django python manage.py shell_plus --ipython
 stop:
 	docker-compose -f local.yml stop
 
