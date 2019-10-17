@@ -277,3 +277,4 @@ ultra_predictor/media/
 .env
 .envs/*
 !.envs/.local/
+.vscode
