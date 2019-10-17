@@ -1,5 +1,7 @@
 FROM python:3.7-alpine
 
+
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN apk update \
@@ -40,5 +42,8 @@ RUN sed -i 's/\r$//g' /start-flower
 RUN chmod +x /start-flower
 
 WORKDIR /app
+
+RUN adduser -D user
+USER user
 
 ENTRYPOINT ["/entrypoint"]
