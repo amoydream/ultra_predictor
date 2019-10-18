@@ -4,7 +4,7 @@ from ultra_predictor.users.models import User
 from factory import DjangoModelFactory, Faker, SubFactory, PostGenerationMethodCall
 
 
-from ultra_predictor.races.models import RaceGroup, Race, Runner
+from ultra_predictor.races.models import RaceGroup, Race, Runner, RaceResult
 
 
 class RaceGroupFactory(DjangoModelFactory):
@@ -18,7 +18,7 @@ class RaceGroupFactory(DjangoModelFactory):
 
 class RaceFactory(DjangoModelFactory):
 
-    name = Faker("name")
+    name = Faker("bs")
     start_date = Faker("date")
     distance = Decimal("64.4")
     elevation_gain = 1300
@@ -42,4 +42,14 @@ class RunnerFactory(DjangoModelFactory):
     class Meta:
         model = Runner
         django_get_or_create = ["name", "birth_year"]
+
+
+class RaceResultFactory(DjangoModelFactory):
+    race = SubFactory(RaceFactory)
+    runner = SubFactory(RunnerFactory)
+    time_result = Faker("time_delta", end_datetime=1)
+
+    class Meta:
+        model = RaceResult
+        django_get_or_create = ["race", "runner"]
 
