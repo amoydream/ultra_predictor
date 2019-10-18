@@ -27,4 +27,4 @@ def test_race_string(db, race):
 def test_runner_string(db, runner):
     name = runner.name
     birth_year = runner.birth_year
-    assert str(runner) == f"{name} {birth_year}"
+    assert str(runner) == f"{name}, {birth_year}"
