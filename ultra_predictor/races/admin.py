@@ -20,7 +20,13 @@ class RaceAdmin(admin.ModelAdmin):
         "itra",
         "food_point",
         "time_limit",
+        "itra_download_status",
     )
+    actions = [("make_race_ready")]
+
+    def make_race_ready(self, request, queryset):
+        queryset.update(itra_download_status="R")
+    make_race_ready.short_description = "Download data from Itra Page"        
 
 
 admin.site.register(models.RaceGroup, RaceGroupAdmin)

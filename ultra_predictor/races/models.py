@@ -10,6 +10,18 @@ class RaceGroup(DefaultModel):
 
 
 class Race(DefaultModel):
+    UNREADY = "U"
+    READY = "R"
+    STARTED = "S"
+    COMPLETED = "C"
+    FAILURE = "F"
+    ITRA_DOWNLOAD_STATUSES = (
+        (UNREADY, "Unready"),
+        (READY, "Ready"),
+        (STARTED, "Started"),
+        (COMPLETED, "Completed"),
+        (FAILURE, "Failure"),
+    )
     race_group = models.ForeignKey(
         RaceGroup, on_delete=models.CASCADE, related_name="races", null=True, blank=True
     )
@@ -22,7 +34,9 @@ class Race(DefaultModel):
     itra_race_id = models.PositiveIntegerField()
     food_point = models.PositiveIntegerField()
     time_limit = models.DecimalField(max_digits=10, decimal_places=1)
+    itra_download_status = models.CharField(
+        max_length=1, choices=ITRA_DOWNLOAD_STATUSES, default=UNREADY
+    )
 
     def __str__(self):
         return self.name
-

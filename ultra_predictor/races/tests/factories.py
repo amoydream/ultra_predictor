@@ -1,7 +1,7 @@
 from typing import Any, Sequence
 from decimal import Decimal
-from factory import DjangoModelFactory, Faker, SubFactory
-
+from ultra_predictor.users.models import User
+from factory import DjangoModelFactory, Faker, SubFactory, PostGenerationMethodCall
 
 
 from ultra_predictor.races.models import RaceGroup, Race
@@ -28,6 +28,7 @@ class RaceFactory(DjangoModelFactory):
     food_point = 3
     time_limit = Decimal("9.5")
     race_group = SubFactory(RaceGroupFactory)
+
     class Meta:
         model = Race
         django_get_or_create = ["name"]
