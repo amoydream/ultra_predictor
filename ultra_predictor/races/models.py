@@ -42,12 +42,33 @@ class Race(DefaultModel):
     def __str__(self):
         return self.name
 
+
 class Runner(DefaultModel):
+    MAN = "m"
+    WOMAN = "w"
+    OTHER = "o"
+    SEX_CHOICES = [(MAN, "Man"), (WOMAN, "Woman"), (OTHER, "Other")]
+
     name = models.CharField(max_length=100)
     birth_year = models.IntegerField(validators=[MinValueValidator(1900)])
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES, default="o")
 
     class Meta:
         unique_together = ["name", "birth_year"]
 
     def __str__(self):
         return f"{self.name}, {self.birth_year}"
+
+
+class RaceResult(models.Model):
+
+    race = models.ForeignKey(
+        Race, on_delete=models.CASCADE, related_name="race_results"
+    )
+    runner = models.ForeignKey(
+        Runner, on_delete=models.CASCADE, related_name="race_results"
+    )
+    time_result = models.DurationField()
+
+    def __str__(self):
+        return f"{self.runner.name}, {self.race.name}, {self.time_result}"
