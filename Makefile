@@ -3,6 +3,8 @@ enter:
 
 test:
 	docker-compose -f local.yml run --rm django pytest
+cov:
+	docker-compose -f local.yml run --rm django coverage run -m pytest	
 
 newapp:
 	docker-compose -f local.yml run --rm django python manage.py startapp  ${app}
