@@ -20,15 +20,14 @@ class TimestampedModel(models.Model):
         ordering = ["-created_at", "-updated_at"]
 
 
-
 class UUIDModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
     class Meta:
         abstract = True
 
 
-
 class DefaultModel(TimestampedModel, UUIDModel):
     class Meta:
-        abstract = True  
-        
+        abstract = True
+
