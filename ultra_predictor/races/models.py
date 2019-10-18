@@ -1,14 +1,15 @@
 from django.db import models
+from ultra_predictor.core.models import DefaultModel
 
 
-class RaceGroup(models.Model):
+class RaceGroup(DefaultModel):
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
 
 
-class Race(models.Model):
+class Race(DefaultModel):
     race_group = models.ForeignKey(
         RaceGroup, on_delete=models.CASCADE, related_name="races", null=True, blank=True
     )
