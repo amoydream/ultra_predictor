@@ -1,5 +1,6 @@
 from django.db import models
 from ultra_predictor.core.models import DefaultModel
+from django.core.validators import MinValueValidator
 
 
 class RaceGroup(DefaultModel):
@@ -40,3 +41,13 @@ class Race(DefaultModel):
 
     def __str__(self):
         return self.name
+
+class Runner(DefaultModel):
+    name = models.CharField(max_length=100)
+    birth_year = models.IntegerField(validators=[MinValueValidator(1900)])
+
+    class Meta:
+        unique_together = ["name", "birth_year"]
+
+    def __str__(self):
+        return f"{self.name}, {self.birth_year}"
