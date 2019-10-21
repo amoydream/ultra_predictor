@@ -1,17 +1,14 @@
-from ultra_predictor.races.models import RaceGroup
+# from ultra_predictor.races.models import PredictionRaceGroup
 from ultra_predictor.races.tests.factories import (
-    RaceGroupFactory,
-    RaceFactory,
+    PredictionRaceGroupFactory,
+    PredictionRaceFactory,
     RunnerFactory,
-    RaceResultFactory,
+    PredictionRaceResultFactory,
+    HistoricalRaceFactory,
+    HistoricalRaceResultFactory,
 )
 
 import pytest
-
-
-@pytest.fixture
-def race():
-    return RaceFactory()
 
 
 @pytest.fixture
@@ -20,22 +17,28 @@ def runner():
 
 
 @pytest.fixture
-def race_group():
-    return RaceGroupFactory()
+def prediction_race_group():
+    return PredictionRaceGroupFactory()
 
 
 @pytest.fixture
-def race_result():
-    return RaceResultFactory()
+def prediction_race():
+    return PredictionRaceFactory()
 
 
-def test_race_group_string(db, race_group):
-    assert str(race_group) == race_group.name
+@pytest.fixture
+def prediction_race_result():
+    return PredictionRaceResultFactory()
 
 
-def test_race_string(db, race):
-    name = race.name
-    assert str(race) == name
+@pytest.fixture
+def historical_race():
+    return HistoricalRaceFactory()
+
+
+@pytest.fixture
+def historical_race_result():
+    return HistoricalRaceResultFactory()
 
 
 def test_runner_string(db, runner):
@@ -44,8 +47,31 @@ def test_runner_string(db, runner):
     assert str(runner) == f"{name}, {birth_year}"
 
 
-def test_race_results_string(db, race_result):
+def test_race_group_string(db, prediction_race_group):
+    assert str(prediction_race_group) == prediction_race_group.name
+
+
+def test_prediction_race_string(db, prediction_race):
+    name = prediction_race.name
+    assert str(prediction_race) == name
+
+
+def test_prediction_race_results_string(db, prediction_race_result):
     assert (
-        str(race_result)
-        == f"{race_result.runner.name}, {race_result.race.name}, {race_result.time_result}"
+        str(prediction_race_result) == f"{prediction_race_result.runner.name}, "
+        f"{prediction_race_result.prediction_race.name}, "
+        f"{prediction_race_result.time_result}"
+    )
+
+
+def test_historiacal_race_string(db, historical_race):
+    name = historical_race.name
+    assert str(historical_race) == name
+
+
+def test_historical_race_results_string(db, historical_race_result):
+    assert (
+        str(historical_race_result) == f"{historical_race_result.runner.name}, "
+        f"{historical_race_result.historical_race.name}, "
+        f"{historical_race_result.time_result}"
     )

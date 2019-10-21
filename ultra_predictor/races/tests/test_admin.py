@@ -1,5 +1,5 @@
 from django.urls import reverse
-from .factories import RaceFactory
+from .factories import PredictionRaceFactory
 from ultra_predictor.users.tests.factories import UserFactory
 import pytest
 
@@ -12,21 +12,21 @@ def login_admin_user(db, client):
 
 
 @pytest.fixture
-def race(db):
-    return RaceFactory()
+def prediction_race(db):
+    return PredictionRaceFactory()
 
 
-def test_listing_races(login_admin_user, race, client):
+def test_listing_races(login_admin_user, prediction_race, client):
     """Test simple listening races"""
-    url = reverse("admin:races_race_changelist")
+    url = reverse("admin:races_predictionrace_changelist")
     res = client.get(url)
-    assert str(race) in str(res.content)
+    assert str(prediction_race) in str(res.content)
 
 
-def test_make_race_ready_custom_action(login_admin_user, client, race):
+def test_make_race_ready_custom_action(login_admin_user, client, prediction_race):
     """Test that race can change status from unready to ready"""
-    url = reverse("admin:races_race_changelist")
-    data = {"action": "make_race_ready", "_selected_action": [race.id]}
+    url = reverse("admin:races_predictionrace_changelist")
+    data = {"action": "make_race_ready", "_selected_action": [prediction_race.id]}
     res = client.post(url, data)
-    race.refresh_from_db()
-    assert race.itra_download_status == 'R'
+    prediction_race.refresh_from_db()
+    assert prediction_race.itra_download_status == 'R'

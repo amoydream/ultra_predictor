@@ -4,21 +4,27 @@ from ultra_predictor.users.models import User
 from factory import DjangoModelFactory, Faker, SubFactory, PostGenerationMethodCall
 
 
-from ultra_predictor.races.models import RaceGroup, Race, Runner, RaceResult
+from ultra_predictor.races.models import (
+    PredictionRaceGroup,
+    PredictionRace,
+    Runner,
+    PredictionRaceResult,
+    HistoricalRace,
+    HistoricalRaceResult,
+)
 
 
-class RaceGroupFactory(DjangoModelFactory):
+class PredictionRaceGroupFactory(DjangoModelFactory):
 
     name = Faker("name")
 
     class Meta:
-        model = RaceGroup
+        model = PredictionRaceGroup
         django_get_or_create = ["name"]
 
 
-class RaceFactory(DjangoModelFactory):
-
-    name = Faker("bs")
+class PredictionRaceFactory(DjangoModelFactory):
+    name = Faker("name")
     start_date = Faker("date")
     distance = Decimal("64.4")
     elevation_gain = 1300
@@ -27,10 +33,10 @@ class RaceFactory(DjangoModelFactory):
     itra_race_id = 12934
     food_point = 3
     time_limit = Decimal("9.5")
-    race_group = SubFactory(RaceGroupFactory)
+    prediction_race_group = SubFactory(PredictionRaceGroupFactory)
 
     class Meta:
-        model = Race
+        model = PredictionRace
         django_get_or_create = ["name"]
 
 
@@ -44,12 +50,31 @@ class RunnerFactory(DjangoModelFactory):
         django_get_or_create = ["name", "birth_year"]
 
 
-class RaceResultFactory(DjangoModelFactory):
-    race = SubFactory(RaceFactory)
+class PredictionRaceResultFactory(DjangoModelFactory):
+    prediction_race = SubFactory(PredictionRaceFactory)
     runner = SubFactory(RunnerFactory)
     time_result = Faker("time_delta", end_datetime=1)
 
     class Meta:
-        model = RaceResult
-        django_get_or_create = ["race", "runner"]
+        model = PredictionRaceResult
+        django_get_or_create = ["prediction_race", "runner"]
 
+
+class HistoricalRaceFactory(DjangoModelFactory):
+    name = Faker("name")
+    start_date = Faker("date")
+    distance = Decimal("64.4")
+
+    class Meta:
+        model = HistoricalRace
+        django_get_or_create = ["name"]
+
+
+class HistoricalRaceResultFactory(DjangoModelFactory):
+    historical_race = SubFactory(HistoricalRaceFactory)
+    runner = SubFactory(RunnerFactory)
+    time_result = Faker("time_delta", end_datetime=1)
+
+    class Meta:
+        model = HistoricalRaceResult
+        django_get_or_create = ["historical_race", "runner"]
