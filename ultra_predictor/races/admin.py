@@ -2,15 +2,15 @@ from django.contrib import admin
 from . import models
 
 
-class RaceInline(admin.TabularInline):
-    model = models.Race
+class PredictionRaceInline(admin.TabularInline):
+    model = models.PredictionRace
 
 
-class RaceGroupAdmin(admin.ModelAdmin):
-    inlines = [RaceInline]
+class PredictionRaceGroupAdmin(admin.ModelAdmin):
+    inlines = [PredictionRaceInline]
 
 
-class RaceAdmin(admin.ModelAdmin):
+class PredictionRaceAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "start_date",
@@ -29,5 +29,5 @@ class RaceAdmin(admin.ModelAdmin):
     make_race_ready.short_description = "Download data from Itra Page"        
 
 
-admin.site.register(models.RaceGroup, RaceGroupAdmin)
-admin.site.register(models.Race, RaceAdmin)
+admin.site.register(models.PredictionRaceGroup, PredictionRaceGroupAdmin)
+admin.site.register(models.PredictionRace, PredictionRaceAdmin)

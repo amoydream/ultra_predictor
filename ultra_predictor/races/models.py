@@ -3,14 +3,14 @@ from ultra_predictor.core.models import DefaultModel
 from django.core.validators import MinValueValidator
 
 
-class RaceGroup(DefaultModel):
+class PredictionRaceGroup(DefaultModel):
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
 
 
-class Race(DefaultModel):
+class PredictionRace(DefaultModel):
     UNREADY = "U"
     READY = "R"
     STARTED = "S"
@@ -23,12 +23,17 @@ class Race(DefaultModel):
         (COMPLETED, "Completed"),
         (FAILURE, "Failure"),
     )
-    race_group = models.ForeignKey(
-        RaceGroup, on_delete=models.CASCADE, related_name="races", null=True, blank=True
-    )
     name = models.CharField(max_length=256)
     start_date = models.DateField()
     distance = models.DecimalField(max_digits=6, decimal_places=2)
+    prediction_race_group = models.ForeignKey(
+        PredictionRaceGroup,
+        on_delete=models.CASCADE,
+        related_name="races",
+        null=True,
+        blank=True,
+    )
+
     elevation_gain = models.PositiveIntegerField()
     elevation_lost = models.PositiveIntegerField()
     itra = models.PositiveIntegerField()
@@ -38,6 +43,19 @@ class Race(DefaultModel):
     itra_download_status = models.CharField(
         max_length=1, choices=ITRA_DOWNLOAD_STATUSES, default=UNREADY
     )
+
+    def __str__(self):
+        return self.name
+
+
+class HistoricalRace(DefaultModel):
+    FLAT = "f"
+    MOUNTAIN = "m"
+    RACE_TYPE_CHOICES = [(FLAT, "Flat"), (MOUNTAIN, "Mountain")]
+    name = models.CharField(max_length=256)
+    start_date = models.DateField()
+    distance = models.DecimalField(max_digits=6, decimal_places=2)
+    race_type = models.CharField(max_length=1, choices=RACE_TYPE_CHOICES, default="o")
 
     def __str__(self):
         return self.name
@@ -60,15 +78,28 @@ class Runner(DefaultModel):
         return f"{self.name}, {self.birth_year}"
 
 
-class RaceResult(models.Model):
-
-    race = models.ForeignKey(
-        Race, on_delete=models.CASCADE, related_name="race_results"
-    )
+class PredictionRaceResult(DefaultModel):
     runner = models.ForeignKey(
-        Runner, on_delete=models.CASCADE, related_name="race_results"
+        Runner, on_delete=models.CASCADE, related_name="prediction_race_results"
     )
     time_result = models.DurationField()
+    prediction_race = models.ForeignKey(
+        PredictionRace, on_delete=models.CASCADE, related_name="prediction_race_results"
+    )
 
     def __str__(self):
-        return f"{self.runner.name}, {self.race.name}, {self.time_result}"
+        return f"{self.runner.name}, {self.prediction_race.name}, {self.time_result}"
+
+
+class HistoricalRaceResult(DefaultModel):
+    runner = models.ForeignKey(
+        Runner, on_delete=models.CASCADE, related_name="historical_race_results"
+    )
+    time_result = models.DurationField()
+    historical_race = models.ForeignKey(
+        HistoricalRace, on_delete=models.CASCADE, related_name="historical_race_results"
+    )
+
+    def __str__(self):
+        return f"{self.runner.name}, {self.historical_race.name}, {self.time_result}"
+
