@@ -21,4 +21,14 @@ class ItraRaceResultsParser:
 
 class ItraRaceResult:
     def __init__(self, row):
-        pass
+        self.runner_name = row.select("td")[0].text.title()
+        self.time_result = row.select("td")[1].text.strip()
+        self.position = row.select("td")[2].text
+        self.sex = row.select("td")[3].text[:1]
+        self.nationality = row.select("td")[4].text
+
+
+class ItraRunnerProfileParser:
+    def __init__(self, html):
+        self.soup = BeautifulSoup(html, "html.parser")
+        self.birth_year = self.soup.select(".tit")[0].text[-4:]
