@@ -48,3 +48,9 @@ def itra_html():
     with open(CURRENT_APP_PATH+"/tests/fixtures/itra_race.html") as f:
         html = f.read()
     return html
+
+@pytest.fixture
+def itra_runner_profile_html():
+    with open(CURRENT_APP_PATH+"/tests/fixtures/itra_runner_year.html") as f:
+        html = f.read()
+    return html
