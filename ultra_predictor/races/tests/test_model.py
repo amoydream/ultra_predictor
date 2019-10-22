@@ -1,44 +1,5 @@
 # from ultra_predictor.races.models import PredictionRaceGroup
-from ultra_predictor.races.tests.factories import (
-    PredictionRaceGroupFactory,
-    PredictionRaceFactory,
-    RunnerFactory,
-    PredictionRaceResultFactory,
-    HistoricalRaceFactory,
-    HistoricalRaceResultFactory,
-)
 
-import pytest
-
-
-@pytest.fixture
-def runner():
-    return RunnerFactory()
-
-
-@pytest.fixture
-def prediction_race_group():
-    return PredictionRaceGroupFactory()
-
-
-@pytest.fixture
-def prediction_race():
-    return PredictionRaceFactory()
-
-
-@pytest.fixture
-def prediction_race_result():
-    return PredictionRaceResultFactory()
-
-
-@pytest.fixture
-def historical_race():
-    return HistoricalRaceFactory()
-
-
-@pytest.fixture
-def historical_race_result():
-    return HistoricalRaceResultFactory()
 
 
 def test_runner_string(db, runner):
