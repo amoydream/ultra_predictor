@@ -1,11 +1,14 @@
 from datetime import timedelta
+from unittest import mock
 
 import pytest
-from ..extras.itra_parser import (
+from ..extras.itra_result_parser import (
     ItraRaceResultsParser,
     ItraRaceResult,
     ItraRunnerProfileParser,
 )
+from ..extras.itra_result_fetcher import ItraRaceResultFetcher
+from ..extras.itra_runner_birth_fetcher import ItraRunnerBirthFetcher
 
 
 def test_loadind_file(itra_html):
@@ -38,7 +41,8 @@ def test_type_of_itra_parser_race_result_element(itra_html):
 def test_succes_parsing_of_runner_name_itra_race_results(itra_html):
     itra_parser = ItraRaceResultsParser(itra_html)
     race_result = itra_parser.race_results[0]
-    assert race_result.runner_name == "Bartlomiej Przedwojewski"
+    assert race_result.first_name == "Bartlomiej"
+    assert race_result.last_name == "Przedwojewski"
 
 
 def test_succes_parsing_of_time_result_itra_race_results(itra_html):
@@ -67,4 +71,48 @@ def test_succes_parsing_of_nationality_itra_race_results(itra_html):
 
 def test_succes_parsing_itra_year_of_runner(itra_runner_profile_html):
     itra_parser = ItraRunnerProfileParser(itra_runner_profile_html)
-    assert itra_parser.birth_year == '1993'
+    assert itra_parser.birth_year == "1993"
+
+
+def test_itra_result_asing_runner_birth_year(itra_html):
+    itra_parser = ItraRaceResultsParser(itra_html)
+    race_result = itra_parser.race_results[0]
+    race_result.birth_year = "1985"
+    assert race_result.birth_year == "1985"
+
+
+# def test_to_dict_race_results(itra_html):
+#     itra_parser = ItraRaceResultsParser(itra_html)
+#     race_result = itra_parser.race_results[0]
+#     race_result_dict = race_result.to_dict()
+#     assert race_result_dict["runner_name"] == "Bartlomiej Przedwojewski"
+#     assert race_result_dict["nationality"] == "Poland"
+#     assert race_result_dict["sex"] == "M"
+#     assert race_result_dict["position"] == "1"
+#     assert race_result_dict["time_result"] == "03:16:57"
+#     assert race_result_dict["birth_year"] == "1985"
+
+
+def test_itra_case(itra_html):
+    itra_fetcher = ItraRaceResultFetcher(itra_race_id=43397)
+    itra_fetcher.get_data = mock.Mock()
+    itra_fetcher.get_data.return_value = itra_html
+    itra_parser = ItraRaceResultsParser(itra_fetcher.get_data())
+    race_result = itra_parser.race_results[0]
+    assert race_result.first_name == "Bartlomiej"
+    assert race_result.last_name == "Przedwojewski"
+    assert race_result.nationality == "Poland"
+    assert race_result.sex == "M"
+    assert race_result.position == "1"
+    assert race_result.time_result == "03:16:57"
+
+
+def test_itra_runner_birth_fetcher(itra_runner_profile_html):
+    itra_birth = ItraRunnerBirthFetcher(
+        first_name="Bartlomiej", last_name="Przedwojewski"
+    )
+    itra_birth.get_data = mock.Mock()
+    itra_birth.get_data.return_value = itra_runner_profile_html
+    itra_parser = ItraRunnerProfileParser(itra_birth.get_data())
+    assert itra_parser.birth_year == "1993"
+
