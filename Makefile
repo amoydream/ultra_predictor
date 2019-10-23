@@ -2,7 +2,7 @@ enter:
 	docker-compose -f local.yml run --rm django sh
 
 test:
-	docker-compose -f local.yml run --rm django pytest
+	docker-compose -f local.yml run --rm django pytest -s
 cov:
 	docker-compose -f local.yml run --rm django coverage run -m pytest	
 
