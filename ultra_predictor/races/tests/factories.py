@@ -1,7 +1,13 @@
 from typing import Any, Sequence
 from decimal import Decimal
 from ultra_predictor.users.models import User
-from factory import DjangoModelFactory, Faker, SubFactory, PostGenerationMethodCall
+from factory import (
+    DjangoModelFactory,
+    Faker,
+    SubFactory,
+    PostGenerationMethodCall,
+    Sequence,
+)
 
 
 from ultra_predictor.races.models import (
@@ -42,12 +48,13 @@ class PredictionRaceFactory(DjangoModelFactory):
 
 class RunnerFactory(DjangoModelFactory):
 
-    name = Faker("name")
+    first_name = Sequence(lambda n: f"runner_first_name_{n}")
+    last_name = Sequence(lambda n: f"runner_last_name_{n}")
     birth_year = Faker("random_int", min=1965, max=2000)
 
     class Meta:
         model = Runner
-        django_get_or_create = ["name", "birth_year"]
+        django_get_or_create = ["first_name","last_name", "birth_year"]
 
 
 class PredictionRaceResultFactory(DjangoModelFactory):

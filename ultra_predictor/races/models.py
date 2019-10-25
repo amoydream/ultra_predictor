@@ -67,15 +67,20 @@ class Runner(DefaultModel):
     OTHER = "o"
     SEX_CHOICES = [(MAN, "Man"), (WOMAN, "Woman"), (OTHER, "Other")]
 
-    name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     birth_year = models.IntegerField(validators=[MinValueValidator(1900)])
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, default="o")
 
     class Meta:
-        unique_together = ["name", "birth_year"]
+        unique_together = ["first_name", "last_name", "birth_year"]
 
     def __str__(self):
         return f"{self.name}, {self.birth_year}"
+
+    @property
+    def name(self):
+        return f"{self.first_name} {self.last_name}"
 
 
 class PredictionRaceResult(DefaultModel):
