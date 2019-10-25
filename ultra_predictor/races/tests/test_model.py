@@ -1,7 +1,6 @@
 # from ultra_predictor.races.models import PredictionRaceGroup
 
 
-
 def test_runner_string(db, runner):
     name = runner.name
     birth_year = runner.birth_year
@@ -32,7 +31,8 @@ def test_historiacal_race_string(db, historical_race):
 
 def test_historical_race_results_string(db, historical_race_result):
     assert (
-        str(historical_race_result) == f"{historical_race_result.runner.name}, "
+        str(historical_race_result) == f"{historical_race_result.runner.first_name} "
+        f"{historical_race_result.runner.last_name}, "
         f"{historical_race_result.historical_race.name}, "
         f"{historical_race_result.time_result}"
     )
