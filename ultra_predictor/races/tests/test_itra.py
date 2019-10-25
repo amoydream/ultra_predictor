@@ -81,16 +81,17 @@ def test_itra_result_asing_runner_birth_year(itra_html):
     assert race_result.birth_year == "1985"
 
 
-# def test_to_dict_race_results(itra_html):
-#     itra_parser = ItraRaceResultsParser(itra_html)
-#     race_result = itra_parser.race_results[0]
-#     race_result_dict = race_result.to_dict()
-#     assert race_result_dict["runner_name"] == "Bartlomiej Przedwojewski"
-#     assert race_result_dict["nationality"] == "Poland"
-#     assert race_result_dict["sex"] == "M"
-#     assert race_result_dict["position"] == "1"
-#     assert race_result_dict["time_result"] == "03:16:57"
-#     assert race_result_dict["birth_year"] == "1985"
+def test_to_dict_race_results(itra_html):
+    itra_parser = ItraRaceResultsParser(itra_html)
+    race_result = itra_parser.race_results[0]
+    race_result_dict = race_result.to_dict()
+    assert race_result_dict["first_name"] == "Bartlomiej"
+    assert race_result_dict["last_name"] == "Przedwojewski"
+    assert race_result_dict["nationality"] == "Poland"
+    assert race_result_dict["sex"] == "M"
+    assert race_result_dict["position"] == "1"
+    assert race_result_dict["time_result"] == "03:16:57"
+    #assert race_result_dict["birth_year"] == "1985"
 
 
 def test_itra_case(itra_html):
