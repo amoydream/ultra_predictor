@@ -1,6 +1,7 @@
 import logging
 from celery import chain, group, chord
 from config import celery_app
+from django.db import transaction
 from .models import PredictionRace
 from .extras.itra_result_fetcher import ItraRaceResultFetcher
 from .extras.itra_runner_birth_fetcher import ItraRunnerBirthFetcher
@@ -44,20 +45,22 @@ def fetch_result_data_from_itra(self, race_id):
 @celery_app.task(bind=True, default_retry_delay=60, max_retries=120)
 def fetch_year_and_save_results(self, result, race_id):
     """Find year on Itra Page and save runner and race results"""
+    
     prediction_race = PredictionRace.objects.get(pk=race_id)
     itra_birth = ItraRunnerBirthFetcher(
         first_name=result["first_name"], last_name=result["last_name"]
     )
     itra_parser = ItraRunnerProfileParser(itra_birth.get_data())
-    runner, created = Runner.objects.get_or_create(
-        first_name=result["first_name"],
-        last_name=result["last_name"],
-        sex=result["sex"],
-        birth_year=itra_parser.birth_year,
-    )
-    result, created = PredictionRaceResult.objects.get_or_create(
-        runner=runner,
-        prediction_race=prediction_race,
-        time_result=result["time_result"],
-    )
+    with transaction.atomic():
+        runner, created = Runner.objects.get_or_create(
+            first_name=result["first_name"],
+            last_name=result["last_name"],
+            sex=result["sex"],
+            birth_year=itra_parser.birth_year,
+        )
+        result, created = PredictionRaceResult.objects.get_or_create(
+            runner=runner,
+            prediction_race=prediction_race,
+            time_result=result["time_result"],
+        )
     return itra_parser.birth_year
