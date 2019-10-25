@@ -18,10 +18,13 @@ class ItraRaceResultsParser:
         for row in rows:
             itra_race_results.append(ItraRaceResult(row))
         return itra_race_results
-
+    
+    
+    
 
 class ItraRaceResult:
     def __init__(self, row=None):
+
         extracted_name = itra_name_extractor(row.select("td")[0].text)
         self.first_name = extracted_name["first_name"].title()
         self.last_name = extracted_name["last_name"].title()
@@ -29,6 +32,22 @@ class ItraRaceResult:
         self.position = row.select("td")[2].text
         self.sex = row.select("td")[3].text[:1]
         self.nationality = row.select("td")[4].text
+
+    def to_dict(self):
+        return {
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "time_result": self.time_result,
+            "position": self.position,
+            "sex": self.sex,
+            "nationality": self.nationality,
+        }
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} {self.time_result}"
+
+    def __repr__(self):
+        return f"{self.first_name} {self.last_name} {self.time_result}"
 
 
 class ItraRunnerProfileParser:
