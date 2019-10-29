@@ -51,16 +51,18 @@ class RunnerFactory(DjangoModelFactory):
     first_name = Sequence(lambda n: f"runner_first_name_{n}")
     last_name = Sequence(lambda n: f"runner_last_name_{n}")
     birth_year = Faker("random_int", min=1965, max=2000)
+    nationality = Faker("country")
 
     class Meta:
         model = Runner
-        django_get_or_create = ["first_name","last_name", "birth_year"]
+        django_get_or_create = ["first_name", "last_name", "birth_year"]
 
 
 class PredictionRaceResultFactory(DjangoModelFactory):
     prediction_race = SubFactory(PredictionRaceFactory)
     runner = SubFactory(RunnerFactory)
     time_result = Faker("time_delta", end_datetime=1)
+    position = Sequence(lambda n: n)
 
     class Meta:
         model = PredictionRaceResult

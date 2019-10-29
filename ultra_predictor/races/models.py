@@ -69,8 +69,9 @@ class Runner(DefaultModel):
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    birth_year = models.IntegerField(validators=[MinValueValidator(1900)])
+    birth_year = models.PositiveSmallIntegerField(validators=[MinValueValidator(1900)])
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, default="o")
+    nationality = models.CharField(max_length=100)
 
     class Meta:
         unique_together = ["first_name", "last_name", "birth_year"]
@@ -88,6 +89,7 @@ class PredictionRaceResult(DefaultModel):
         Runner, on_delete=models.CASCADE, related_name="prediction_race_results"
     )
     time_result = models.DurationField()
+    position = models.PositiveSmallIntegerField();
     prediction_race = models.ForeignKey(
         PredictionRace, on_delete=models.CASCADE, related_name="prediction_race_results"
     )
