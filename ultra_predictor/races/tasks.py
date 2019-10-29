@@ -56,11 +56,13 @@ def fetch_year_and_save_results(self, result, race_id):
             first_name=result["first_name"],
             last_name=result["last_name"],
             sex=result["sex"],
+            nationality=result["nationality"],
             birth_year=itra_parser.birth_year,
         )
         result, created = PredictionRaceResult.objects.get_or_create(
             runner=runner,
             prediction_race=prediction_race,
             time_result=result["time_result"],
+            position=result["position"],
         )
     return itra_parser.birth_year
