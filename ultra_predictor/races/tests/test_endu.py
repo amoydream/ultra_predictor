@@ -1,5 +1,5 @@
 from unittest import mock
-
+from unittest.mock import patch
 import pytest
 from ..extras.enduhub_parser import EnduhubParser, BirthYear
 from ..extras.enduhub_fetcher import EnduhubFetcher
@@ -43,7 +43,11 @@ def test_birth_year_non_numerical():
         BirthYear("asd")
 
 
-def test_endu_case(eduhub_page_html_1):
+@patch("ultra_predictor.races.extras.enduhub_fetcher.EnduhubFetcher.get_data")
+@patch("ultra_predictor.races.extras.enduhub_parser.EnduhubParser.check_next_page")
+def test_endu_case(patch_check_next_page, patch_download_endu, eduhub_page_html_1):
+    patch_download_endu.return_value = eduhub_page_html_1
+    patch_check_next_page.return_value = False
     page = 1
     all_results = []
 
@@ -57,4 +61,4 @@ def test_endu_case(eduhub_page_html_1):
             break
     # endu_fetcher.get_data = mock.Mock()
     # endu_fetcher.get_data.return_value = itra_html
-    assert len(all_results) == 11
+    assert len(all_results) == 3
