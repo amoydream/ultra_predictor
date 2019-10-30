@@ -37,8 +37,8 @@ def test_task_fetch_result_data_from_itra(
     )
 
 
+@pytest.mark.django_db
 def test_task_enduhub_fecher(settings):
     settings.CELERY_TASK_ALWAYS_EAGER = True
-    runner = RunnerFactory()
-    task = process_enduhub_download(runner.id)
-    task.delay()
+    runner = RunnerFactory(first_name="Piotr", last_name="Nowak", birth_year="1987")
+    task = process_enduhub_download.delay(runner.id)

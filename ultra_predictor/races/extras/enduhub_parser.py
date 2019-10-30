@@ -28,7 +28,6 @@ class EnduhubParser:
                 time_result=time_result,
                 race_type=race_type,
             )
-            print(race_result)
             try:
                 equal_year = self.birth_year_filter == BirthYear(birth_year)
             except ValueError:
@@ -39,8 +38,12 @@ class EnduhubParser:
         return race_results
 
     def check_next_page(self):
-        next_li = self.soup.select(".pagination .pages li.active")[0].findNext("li")
-        return "ostatnia" not in next_li.text
+        try:
+            next_li = self.soup.select(".pagination .pages li.active")[0].findNext("li")
+        except IndexError:
+            return False
+        else:
+            return "ostatnia" not in next_li.text
 
 
 class BirthYear:

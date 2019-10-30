@@ -6,6 +6,8 @@ from .models import PredictionRace
 from .extras.itra_result_fetcher import ItraRaceResultFetcher
 from .extras.itra_runner_birth_fetcher import ItraRunnerBirthFetcher
 from .extras.itra_result_parser import ItraRaceResultsParser, ItraRunnerProfileParser
+from .extras.enduhub_fetcher import EnduhubFetcher
+from .extras.enduhub_parser import EnduhubParser
 from .models import PredictionRaceResult, Runner
 
 
@@ -69,5 +71,18 @@ def fetch_year_and_save_results(self, result, race_id):
 
 
 @celery_app.task(bind=True, default_retry_delay=60, max_retries=120)
-def process_enduhub_download(runner_id):
-    pass
+def process_enduhub_download(self, runner_id):
+    runner = Runner.objects.get(pk=runner_id)
+    page = 1
+    all_results = []
+    while True:
+        endu_fetcher = EnduhubFetcher(runner.name, page)
+        endu_parser = EnduhubParser(endu_fetcher.get_data(), runner.birth_year)
+        all_results += endu_parser.results()
+
+        if endu_parser.has_next_page:
+            page += 1
+        else:
+            break
+
+    return all_results        
