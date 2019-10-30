@@ -89,7 +89,7 @@ class PredictionRaceResult(DefaultModel):
         Runner, on_delete=models.CASCADE, related_name="prediction_race_results"
     )
     time_result = models.DurationField()
-    position = models.PositiveSmallIntegerField();
+    position = models.PositiveSmallIntegerField()
     prediction_race = models.ForeignKey(
         PredictionRace, on_delete=models.CASCADE, related_name="prediction_race_results"
     )
