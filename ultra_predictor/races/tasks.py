@@ -8,7 +8,11 @@ from .extras.itra_runner_birth_fetcher import ItraRunnerBirthFetcher
 from .extras.itra_result_parser import ItraRaceResultsParser, ItraRunnerProfileParser
 from .extras.enduhub_fetcher import EnduhubFetcher
 from .extras.enduhub_parser import EnduhubParser
+<<<<<<< HEAD
 from .models import PredictionRaceResult, Runner, HistoricalRaceResult
+=======
+from .models import PredictionRaceResult, Runner
+>>>>>>> Contiune Creating task for endu
 
 
 logger = logging.getLogger(__name__)
