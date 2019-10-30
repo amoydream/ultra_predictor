@@ -66,3 +66,8 @@ def fetch_year_and_save_results(self, result, race_id):
             position=result["position"],
         )
     return itra_parser.birth_year
+
+
+@celery_app.task(bind=True, default_retry_delay=60, max_retries=120)
+def process_enduhub_download(runner_id):
+    pass

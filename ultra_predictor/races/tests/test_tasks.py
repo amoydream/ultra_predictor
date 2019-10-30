@@ -2,8 +2,8 @@ from unittest.mock import patch
 import pytest
 from celery.result import EagerResult
 from celery import chain
-from .factories import PredictionRaceFactory
-from ..tasks import process_itra_download
+from .factories import PredictionRaceFactory, RunnerFactory
+from ..tasks import process_itra_download, process_enduhub_download
 from ..extras.itra_result_parser import ItraRaceResultsParser
 
 
@@ -36,3 +36,9 @@ def test_task_fetch_result_data_from_itra(
         itra_parser.race_results
     )
 
+
+def test_task_enduhub_fecher(settings):
+    settings.CELERY_TASK_ALWAYS_EAGER = True
+    runner = RunnerFactory()
+    task = process_enduhub_download(runner.id)
+    task.delay()
