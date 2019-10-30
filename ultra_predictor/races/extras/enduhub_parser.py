@@ -28,7 +28,6 @@ class EnduhubParser:
                 time_result=time_result,
                 race_type=race_type,
             )
-
             try:
                 equal_year = self.birth_year_filter == BirthYear(birth_year)
             except ValueError:

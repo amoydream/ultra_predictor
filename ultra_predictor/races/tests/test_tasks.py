@@ -2,8 +2,8 @@ from unittest.mock import patch
 import pytest
 from celery.result import EagerResult
 from celery import chain
-from .factories import PredictionRaceFactory
-from ..tasks import process_itra_download
+from .factories import PredictionRaceFactory, RunnerFactory
+from ..tasks import process_itra_download, process_enduhub_download
 from ..extras.itra_result_parser import ItraRaceResultsParser
 
 
@@ -29,7 +29,6 @@ def test_task_fetch_result_data_from_itra(
 
     task = process_itra_download(prediction_race.id)
     task.delay()
-    
 
     prediction_race.refresh_from_db()
     itra_parser = ItraRaceResultsParser(itra_html)
@@ -37,3 +36,9 @@ def test_task_fetch_result_data_from_itra(
         itra_parser.race_results
     )
 
+
+@pytest.mark.django_db
+def test_task_enduhub_fecher(settings):
+    settings.CELERY_TASK_ALWAYS_EAGER = True
+    runner = RunnerFactory(first_name="Piotr", last_name="Nowak", birth_year="1987")
+    task = process_enduhub_download.delay(runner.id)
