@@ -1,4 +1,3 @@
-from typing import Any, Sequence
 from decimal import Decimal
 from ultra_predictor.users.models import User
 from factory import (

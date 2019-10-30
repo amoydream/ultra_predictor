@@ -29,7 +29,6 @@ def test_task_fetch_result_data_from_itra(
 
     task = process_itra_download(prediction_race.id)
     task.delay()
-    
 
     prediction_race.refresh_from_db()
     itra_parser = ItraRaceResultsParser(itra_html)

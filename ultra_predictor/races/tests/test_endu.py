@@ -1,4 +1,4 @@
-from unittest import mock
+
 from unittest.mock import patch
 import pytest
 from ..extras.enduhub_parser import EnduhubParser, BirthYear
@@ -54,7 +54,7 @@ def test_endu_case(patch_check_next_page, patch_download_endu, eduhub_page_html_
     while True:
         endu_fetcher = EnduhubFetcher("Piotr Nowak", page)
         endu_parser = EnduhubParser(endu_fetcher.get_data(), 1987)
-        
+
         all_results += endu_parser.results()
 
         if endu_parser.has_next_page:
