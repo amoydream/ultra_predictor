@@ -37,8 +37,15 @@ def test_task_fetch_result_data_from_itra(
     )
 
 
+@patch("ultra_predictor.races.extras.enduhub_fetcher.EnduhubFetcher.get_data")
+@patch("ultra_predictor.races.extras.enduhub_parser.EnduhubParser.check_next_page")
 @pytest.mark.django_db
-def test_task_enduhub_fecher(settings):
+def test_task_enduhub_fecher(
+    patch_check_next_page, patch_endu_html, settings, eduhub_page_html_1
+):
+    patch_check_next_page.return_value = False
+    patch_endu_html.return_value = eduhub_page_html_1
     settings.CELERY_TASK_ALWAYS_EAGER = True
     runner = RunnerFactory(first_name="Piotr", last_name="Nowak", birth_year="1987")
     task = process_enduhub_download.delay(runner.id)
+    assert runner.historical_race_results.count() == 3
