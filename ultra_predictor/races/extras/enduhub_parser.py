@@ -1,4 +1,6 @@
 from bs4 import BeautifulSoup
+from decimal import Decimal
+import re
 
 
 class EnduhubParser:
@@ -23,17 +25,17 @@ class EnduhubParser:
                 runner_name=" ".join(runner_name.split()),
                 birth_year=birth_year,
                 race_name=" ".join(race_name.split()),
-                distance=distance,
+                distance=DistanceConverter(distance).distance_in_km,
                 start_date=start_date,
                 time_result=time_result,
-                race_type=race_type,
+                race_type=RaceTypeConverter(race_type).short_string,
             )
             try:
                 equal_year = self.birth_year_filter == BirthYear(birth_year)
             except ValueError:
                 continue
             else:
-                if equal_year:
+                if equal_year and race_result["distance"] and race_result["race_type"]:
                     race_results.append(race_result)
         return race_results
 
@@ -70,3 +72,36 @@ class BirthYear:
 
     def __repr__(self):
         return f"BirthYear({self.year})"
+
+
+class DistanceConverter:
+    def __init__(self, distance_input):
+        self.distance_input = distance_input
+        self.distance_in_km = None
+        self.correct_distance()
+
+    def correct_distance(self):
+        """Clean distance input"""
+        str_distance = str(self.distance_input).strip()
+        find_digit = re.match(r"\d+\.*\d*", str_distance)
+        if find_digit:
+            result = find_digit.group()
+            self.distance_in_km = str(Decimal(result))
+
+        elif str_distance.lower() == "maraton":
+            self.distance_in_km = str(42.1)
+        elif str_distance.lower() in ["połmaraton", "polmaraton", "półmaraton"]:
+            self.distance_in_km = str(21.05)
+
+
+class RaceTypeConverter:
+    def __init__(self, race_type_input):
+        self.race_type_input = race_type_input
+        self.short_string = self.correct_race_type()
+
+    def correct_race_type(self):
+        if self.race_type_input == "Bieganie":
+            return "f"
+        if self.race_type_input == "Biegi Górskie":
+            return "m"
+        return None

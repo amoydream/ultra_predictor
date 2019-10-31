@@ -8,11 +8,7 @@ from .extras.itra_runner_birth_fetcher import ItraRunnerBirthFetcher
 from .extras.itra_result_parser import ItraRaceResultsParser, ItraRunnerProfileParser
 from .extras.enduhub_fetcher import EnduhubFetcher
 from .extras.enduhub_parser import EnduhubParser
-<<<<<<< HEAD
-from .models import PredictionRaceResult, Runner, HistoricalRaceResult
-=======
-from .models import PredictionRaceResult, Runner
->>>>>>> Contiune Creating task for endu
+from .models import PredictionRaceResult, Runner, HistoricalRaceResult, HistoricalRace
 
 
 logger = logging.getLogger(__name__)
@@ -88,10 +84,20 @@ def process_enduhub_download(self, runner_id):
             page += 1
         else:
             break
-           
-    result, _ = HistoricalRaceResult.objects.get_or_create(
-        runner=runner,
-        historical_race=historical_race,
-        time_result=result["time_result"],
-    )
+    
+    for result in all_results:
+        with transaction.atomic():
+            historical_race, _ = HistoricalRace.objects.get_or_create(
+                name=result["race_name"],
+                start_date=result["start_date"],
+                distance=result["distance"],
+                race_type=result["race_type"],
+            )
+            
+            hist_result, _ = HistoricalRaceResult.objects.get_or_create(
+                runner=runner,
+                historical_race=historical_race,
+                time_result=result["time_result"],
+            )
 
+    return 'ok'

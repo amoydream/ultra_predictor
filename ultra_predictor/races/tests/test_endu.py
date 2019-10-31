@@ -1,7 +1,11 @@
-
 from unittest.mock import patch
 import pytest
-from ..extras.enduhub_parser import EnduhubParser, BirthYear
+from ..extras.enduhub_parser import (
+    EnduhubParser,
+    BirthYear,
+    DistanceConverter,
+    RaceTypeConverter,
+)
 from ..extras.enduhub_fetcher import EnduhubFetcher
 
 
@@ -41,6 +45,24 @@ def test_birth_year_equl(year, year_to_birth):
 def test_birth_year_non_numerical():
     with pytest.raises(ValueError):
         BirthYear("asd")
+
+
+@pytest.mark.parametrize(
+    "dinstance_input, distance_output",
+    [("10", "10"), ("17 km", "17"), ("maraton", "42.1")],
+)
+def test_distance_converter(dinstance_input, distance_output):
+    distance = DistanceConverter(dinstance_input)
+    assert distance.distance_in_km == distance_output
+
+
+@pytest.mark.parametrize(
+    "race_type_input, race_type_output",
+    [("Biegi Górskie", "m"), ("Bieganie", "f"), ("anything else", None)],
+)
+def test_race_type_converter(race_type_input, race_type_output):
+    race_type_converted = RaceTypeConverter(race_type_input)
+    assert race_type_converted.short_string == race_type_output
 
 
 @patch("ultra_predictor.races.extras.enduhub_fetcher.EnduhubFetcher.get_data")
