@@ -25,7 +25,7 @@ def process_itra_download(race_id):
     return chain_process
 
 
-@celery_app.task()
+@celery_app.task
 def group_itra_year_fetcher_task(results):
     return group(
         fetch_year_and_save_results.s(result, results["race_id"])
@@ -33,10 +33,20 @@ def group_itra_year_fetcher_task(results):
     )()
 
 
+@celery_app.task()
+def process_endu_download(race_id):
+    prediction_race = PredictionRace.objects.get(pk=race_id)
+    return group(
+        fetch_enduhub_runner_download.s(runner.id)
+        for runner in prediction_race.runners.all()
+    )()
+
+
 @celery_app.task(bind=True, default_retry_delay=60, max_retries=120)
 def fetch_result_data_from_itra(self, race_id):
     """Download  race results from itra page"""
-    itra_fetcher = ItraRaceResultFetcher(itra_race_id=race_id)
+    prediction_race = PredictionRace.objects.get(pk=race_id)
+    itra_fetcher = ItraRaceResultFetcher(itra_race_id=prediction_race.itra_race_id)
     itra_parser = ItraRaceResultsParser(itra_fetcher.get_data())
     return {
         "results": [result.to_dict() for result in itra_parser.race_results],
@@ -67,11 +77,11 @@ def fetch_year_and_save_results(self, result, race_id):
             time_result=result["time_result"],
             position=result["position"],
         )
-    return itra_parser.birth_year
+    return "ok"
 
 
 @celery_app.task(bind=True, default_retry_delay=60, max_retries=120)
-def process_enduhub_download(self, runner_id):
+def fetch_enduhub_runner_download(self, runner_id):
     runner = Runner.objects.get(pk=runner_id)
     page = 1
     all_results = []
@@ -84,7 +94,7 @@ def process_enduhub_download(self, runner_id):
             page += 1
         else:
             break
-    
+
     for result in all_results:
         with transaction.atomic():
             historical_race, _ = HistoricalRace.objects.get_or_create(
@@ -93,11 +103,12 @@ def process_enduhub_download(self, runner_id):
                 distance=result["distance"],
                 race_type=result["race_type"],
             )
-            
+
             hist_result, _ = HistoricalRaceResult.objects.get_or_create(
                 runner=runner,
                 historical_race=historical_race,
                 time_result=result["time_result"],
             )
 
-    return 'ok'
+    return "ok"
+

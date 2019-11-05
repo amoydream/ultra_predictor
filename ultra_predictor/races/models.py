@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from ultra_predictor.core.models import DefaultModel
 from django.core.validators import MinValueValidator
 
@@ -6,8 +7,17 @@ from django.core.validators import MinValueValidator
 class PredictionRaceGroup(DefaultModel):
     name = models.CharField(max_length=255)
 
+    def get_absolute_url(self):
+        return reverse("prediction-group-detailed", kwargs={"pk": self.pk})
+
     def __str__(self):
         return self.name
+
+    def all_results_of_prediction_races(self):
+        
+        return PredictionRaceResult.objects.filter(
+            prediction_race__in=self.prediction_races.all()
+        )
 
 
 class PredictionRace(DefaultModel):
@@ -29,7 +39,7 @@ class PredictionRace(DefaultModel):
     prediction_race_group = models.ForeignKey(
         PredictionRaceGroup,
         on_delete=models.CASCADE,
-        related_name="races",
+        related_name="prediction_races",
         null=True,
         blank=True,
     )
@@ -42,6 +52,9 @@ class PredictionRace(DefaultModel):
     time_limit = models.DecimalField(max_digits=10, decimal_places=1)
     itra_download_status = models.CharField(
         max_length=1, choices=ITRA_DOWNLOAD_STATUSES, default=UNREADY
+    )
+    runners = models.ManyToManyField(
+        "Runner", through="PredictionRaceResult", related_name="runners"
     )
 
     def __str__(self):

@@ -1,4 +1,9 @@
 # from ultra_predictor.races.models import PredictionRaceGroup
+from .factories import (
+    PredictionRaceGroupFactory,
+    PredictionRaceFactory,
+    PredictionRaceResultFactory,
+)
 
 
 def test_runner_string(db, runner):
@@ -36,3 +41,19 @@ def test_historical_race_results_string(db, historical_race_result):
         f"{historical_race_result.historical_race.name}, "
         f"{historical_race_result.time_result}"
     )
+
+
+def test_all_results_of_prediction_races_of_race_group(db):
+    group1 = PredictionRaceGroupFactory()
+    group2 = PredictionRaceGroupFactory()
+    race1 = PredictionRaceFactory(prediction_race_group=group1)
+    race2 = PredictionRaceFactory(prediction_race_group=group1)
+    race3 = PredictionRaceFactory(prediction_race_group=group2)
+    PredictionRaceResultFactory.create_batch(10, prediction_race=race1)
+    PredictionRaceResultFactory.create_batch(10, prediction_race=race2)
+    PredictionRaceResultFactory.create_batch(10, prediction_race=race3)
+    
+    assert len(group1.all_results_of_prediction_races()) == 20
+    assert len(group2.all_results_of_prediction_races()) == 10
+    
+

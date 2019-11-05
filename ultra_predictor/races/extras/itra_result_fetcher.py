@@ -7,7 +7,7 @@ class ItraRaceResultFetcher:
         self.itra_race_id = itra_race_id
 
     def get_data(self):
-        print("testin mock")
+        print("testin mock", self.itra_race_id)
         try:
             headers = {"Accept-Language": "en-US,en;q=0.5"}
             response = requests.post(

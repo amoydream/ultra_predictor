@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1>Races</h1>
+  <div class="list-group">
+    {% for pr_race_group in prediction_race_groups_list %}
+    <div class="card mb-2">
+      <div class="card-header">
+        <b>{{pr_race_group.name}}</b>
+        <a href="{% url 'races:prediction-group-detailed' pr_race_group.pk%}">See all results</a>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for pr_race in  pr_race_group.prediction_races.all %}
+        <li class="list-group-item">
+          {{pr_race.name}} <br>
+          <small>
+            {{pr_race.elevation_gain}}+/{{pr_race.elevation_lost}}- |
+            ITRA points: {{pr_race.itra}} |
+            food points: {{pr_race.food_point}} |
+            time limit: {{pr_race.time_limit}}h | Results {{pr_race.prediction_race_results.count}}
+          </small> 
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+
+  </div>
+  {% endblock content %}

@@ -8,7 +8,7 @@ class ItraRunnerBirthFetcher:
         self.last_name = last_name
 
     def get_data(self):
-        print("testin mock")
+        print("testin mock", self.first_name, self.last_name)
         try:
             headers = {"Accept-Language": "en-US,en;q=0.5"}
             response = requests.post(
