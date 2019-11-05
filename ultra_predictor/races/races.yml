@@ -1,0 +1,46 @@
+- model: races.prediction_races_group
+  fileds: 
+    name: Wielka Prehyba
+    model: prediction_race
+      name: Wielka Prehyba 2019
+      start_date: 27.04.2019
+      distance: 43.50
+      elevation_gain: 1925
+      elevation_lost: 1925
+      itra: 2
+      itra_race_id: 43397
+      food_point: 3
+      time_limit: 9
+
+- model: races.prediction_races_group
+  fileds: 
+    name: Bieg Rzeźnika Sky
+    model: prediction_race
+      name: Bieg Rzeźnika Sky 2019
+      start_date: 20.06.2019
+      distance: 52.50
+      elevation_gain: 2950
+      elevation_lost: 2950
+      itra: 3
+      itra_race_id: 37597
+      food_point: 4
+      time_limit: 10
+
+- model: races.prediction_races_group
+  fileds: 
+    name: Vii Hyundai Ultramaraton Bieszczadzki
+    model: prediction_race
+      name: Vii Hyundai Ultramaraton Bieszczadzki 2018
+      start_date: 13.10.2018
+      distance: 51.04
+      elevation_gain: 1860
+      elevation_lost: 1860
+      itra: 2
+      itra_race_id: 27487
+      food_point: 3
+      time_limit: 9
+
+
+
+    
+

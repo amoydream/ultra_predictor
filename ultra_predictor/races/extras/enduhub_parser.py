@@ -35,7 +35,12 @@ class EnduhubParser:
             except ValueError:
                 continue
             else:
-                if equal_year and race_result["distance"] and race_result["race_type"]:
+                if (
+                    equal_year
+                    and race_result["distance"]
+                    and race_result["race_type"]
+                    and len(race_result["time_result"].split(":")) == 3
+                ):
                     race_results.append(race_result)
         return race_results
 

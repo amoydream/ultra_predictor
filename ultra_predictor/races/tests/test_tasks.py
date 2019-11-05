@@ -2,8 +2,8 @@ from unittest.mock import patch
 import pytest
 from celery.result import EagerResult
 from celery import chain
-from .factories import PredictionRaceFactory, RunnerFactory
-from ..tasks import process_itra_download, process_enduhub_download
+from .factories import PredictionRaceFactory, RunnerFactory, PredictionRaceResultFactory
+from ..tasks import process_itra_download, fetch_enduhub_runner_download, process_endu_download
 from ..extras.itra_result_parser import ItraRaceResultsParser
 
 
@@ -47,5 +47,14 @@ def test_task_enduhub_fecher(
     patch_endu_html.return_value = eduhub_page_html_1
     settings.CELERY_TASK_ALWAYS_EAGER = True
     runner = RunnerFactory(first_name="Piotr", last_name="Nowak", birth_year="1987")
-    task = process_enduhub_download.delay(runner.id)
+    task = fetch_enduhub_runner_download.delay(runner.id)
     assert runner.historical_race_results.count() == 3
+
+
+@pytest.mark.django_db
+def test_task_enduhub_process(settings):
+    settings.CELERY_TASK_ALWAYS_EAGER = True
+    result = PredictionRaceResultFactory()
+    race = result.prediction_race
+    process_endu_download.delay(race.id)
+
