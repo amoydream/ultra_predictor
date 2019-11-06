@@ -1,16 +1,44 @@
 {% extends 'base.html' %}
+{% load bootstrap_pagination %}
 {% block content %}
-<h1>{{prediction_group.name}}</h1>  
+<h1>{{prediction_group.name}}</h1>
 <table class="table">
     <tr>
         <th>
-            Distance
+            Position
+        </th>
+        <th>
+            Time result
+        </th>
+        <th>
+            Race Distance
+        </th>
+        <th>
+            Start date
+        </th>
+        <th>
+            Runner sex
+        </th>
+        <th>
+            Runner birth
+        </th>
+        <th>
+            Runner best 10km
         </th>
     </tr>
-{% for race_result in  group_race_results%}
-  <tr>
-      <td>{{race_result.distance}}</td>
-  </tr>
-{% endfor %}
+    {% for race_result in  group_race_results%}
+    <tr>
+        <td>{{race_result.position}}</td>
+        <td>{{race_result.time_result}}</td>
+        <td>{{race_result.prediction_race.distance}}</td>
+        <td>{{race_result.prediction_race.start_date}}</td>
+        <td>{{race_result.runner.sex}}</td>
+        <td>{{race_result.runner.birth_year}}</td>
+        <td>{{race_result.best_10km_run_before_prediction_race}}</td>
+    </tr>
+    {% endfor %}
 </table>
+
+{% bootstrap_paginate group_race_results range=10 show_first_last="true" %}
+
 {% endblock content %}
