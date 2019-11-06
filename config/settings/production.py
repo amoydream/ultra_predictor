@@ -213,3 +213,4 @@ sentry_sdk.init(
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+INSTALLED_APPS += ["django_extensions"]
