@@ -14,9 +14,13 @@ class PredictionRaceGroup(DefaultModel):
         return self.name
 
     def all_results_of_prediction_races(self):
-        
-        return PredictionRaceResult.objects.filter(
-            prediction_race__in=self.prediction_races.all()
+        return (
+            PredictionRaceResult.objects.filter(
+                prediction_race__in=self.prediction_races.all()
+            )
+            .prefetch_related("prediction_race")
+            .prefetch_related("runner")
+            .order_by("position")
         )
 
 
@@ -106,6 +110,13 @@ class PredictionRaceResult(DefaultModel):
     prediction_race = models.ForeignKey(
         PredictionRace, on_delete=models.CASCADE, related_name="prediction_race_results"
     )
+
+    @property
+    def best_10km_run_before_prediction_race(self):
+        return self.runner.historical_race_results.filter(
+            historical_race__start_date__lte=self.prediction_race.start_date,
+            historical_race__distance=10,
+        ).aggregate(models.Min("time_result"))["time_result__min"]
 
     def __str__(self):
         return f"{self.runner.name}, {self.prediction_race.name}, {self.time_result}"
