@@ -6,11 +6,14 @@ from .tasks import process_itra_download, process_endu_download
 class PredictionRaceInline(admin.TabularInline):
     model = models.PredictionRace
 
+
 class PredictionRaceResultsAdmin(admin.ModelAdmin):
     model = models.PredictionRaceResult
 
+
 class HistoricalRaceResultsAdmin(admin.ModelAdmin):
     model = models.HistoricalRaceResult
+
 
 class HistoricalRaceAdmin(admin.ModelAdmin):
     model = models.HistoricalRace
@@ -18,6 +21,7 @@ class HistoricalRaceAdmin(admin.ModelAdmin):
 
 class PredictionRaceGroupAdmin(admin.ModelAdmin):
     inlines = [PredictionRaceInline]
+
 
 class RunnerAdmin(admin.ModelAdmin):
     pass
@@ -35,21 +39,23 @@ class PredictionRaceAdmin(admin.ModelAdmin):
         "time_limit",
         "itra_download_status",
     )
-    actions = [("download_itra"),("download_enduhub")]
+    actions = [("download_itra"), ("download_enduhub")]
 
     def download_itra(self, request, queryset):
         queryset.update(itra_download_status="R")
         for race in queryset:
             task = process_itra_download(race.id)
             task.delay()
+
     download_itra.short_description = "Download data from Itra Page"
-    
+
     def download_enduhub(self, request, queryset):
         queryset.update(itra_download_status="R")
         for race in queryset:
             task = process_endu_download(race.id)
             task.delay()
-    download_itra.short_description = "Download data from Enduhub"        
+
+    download_enduhub.short_description = "Download data from Enduhub"
 
 
 admin.site.register(models.PredictionRaceGroup, PredictionRaceGroupAdmin)
