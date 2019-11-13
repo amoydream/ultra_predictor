@@ -10,6 +10,7 @@ flower==0.9.3  # https://github.com/mher/flower
 beautifulsoup4==4.8.1,<4.9.0 
 requests==2.22.0
 django-bootstrap-pagination==1.7.1
+django-elasticsearch-dsl==7.1.0
 
 # Django
 # ------------------------------------------------------------------------------
