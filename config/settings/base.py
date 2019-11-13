@@ -71,7 +71,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "django_celery_beat",
     'bootstrap_pagination',
-    'django_elasticsearch_dsl',
+    
 ]
 
 LOCAL_APPS = [

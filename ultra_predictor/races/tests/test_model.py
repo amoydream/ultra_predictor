@@ -1,4 +1,6 @@
 # from ultra_predictor.races.models import PredictionRaceGroup
+import pytest
+from decimal import Decimal
 from .factories import (
     PredictionRaceGroupFactory,
     PredictionRaceFactory,
@@ -83,3 +85,26 @@ def test_runner_best_results_on_10_km_before_prediction_race(db):
     )
     best_query = pred_race_result.best_10km_run_before_prediction_race
     assert str(best_query) == "0:52:00"
+
+
+@pytest.mark.parametrize(
+    "time_result, hours",
+    [
+        ("00:30:00", "0.5"),
+        ("00:06:00", "0.1"),
+        ("01:30:00", "1.5"),
+        ("00:00:00", "0"),
+    ],
+)
+def test_time_result_in_hours(time_result, hours, db):
+    pr = PredictionRaceResultFactory.create(time_result=time_result)
+    pr.refresh_from_db()
+    assert pr.time_result_in_hours == Decimal(hours)
+
+def test_runner_age_during_race(db):
+    runner = RunnerFactory(birth_year=1980)
+    race = PredictionRaceFactory(start_date = "2019-11-11")
+    result = PredictionRaceResultFactory(runner=runner, prediction_race=race)
+    result.refresh_from_db()
+    assert result.runner_age_during_race == 39
+

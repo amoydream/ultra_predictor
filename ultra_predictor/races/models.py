@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from ultra_predictor.core.models import DefaultModel
 from django.core.validators import MinValueValidator
+from decimal import Decimal
 
 
 class PredictionRaceGroup(DefaultModel):
@@ -117,6 +118,15 @@ class PredictionRaceResult(DefaultModel):
             historical_race__start_date__lte=self.prediction_race.start_date,
             historical_race__distance=10,
         ).aggregate(models.Min("time_result"))["time_result__min"]
+
+    @property
+    def time_result_in_hours(self):
+        hours = Decimal(self.time_result.seconds / 3600)
+        return round(hours, 2)
+
+    @property
+    def runner_age_during_race(self):
+        return self.prediction_race.start_date.year - self.runner.birth_year
 
     def __str__(self):
         return f"{self.runner.name}, {self.prediction_race.name}, {self.time_result}"
