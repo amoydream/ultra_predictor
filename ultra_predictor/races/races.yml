@@ -25,6 +25,16 @@
       itra_race_id: 37597
       food_point: 4
       time_limit: 10
+     model: prediction_race
+      name: Bieg Rzeźnika Sky 2018
+      start_date: 31.05.2019
+      distance: 52.50
+      elevation_gain: 2920
+      elevation_lost: 2910
+      itra: 3
+      itra_race_id: 27787
+      food_point: 4
+      time_limit: 10  
 
 - model: races.prediction_races_group
   fileds: 

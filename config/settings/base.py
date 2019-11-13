@@ -71,8 +71,9 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount.providers.facebook",
     "rest_framework",
     "django_celery_beat",
-    "bootstrap_pagination",
     "knox",  #
+    'bootstrap_pagination',
+    'django_elasticsearch_dsl',
 ]
 
 
