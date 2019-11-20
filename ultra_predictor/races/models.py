@@ -61,6 +61,19 @@ class PredictionRace(DefaultModel):
         "Runner", through="PredictionRaceResult", related_name="runners"
     )
 
+    def runners_with_best_count(self, distance):
+        results = (
+            HistoricalRaceResult.objects.filter(
+                runner__in=self.runners.all(),
+                historical_race__start_date__lte=self.start_date,
+                historical_race__distance=distance,
+            )
+            .distinct("runner")
+            .count()
+        )
+        
+        return results
+
     def __str__(self):
         return self.name
 

@@ -83,3 +83,27 @@ def test_runner_best_results_on_10_km_before_prediction_race(db):
     )
     best_query = pred_race_result.best_10km_run_before_prediction_race
     assert str(best_query) == "0:52:00"
+
+
+def test_runners_with_best_count(db):
+    prediction_race = PredictionRaceFactory(start_date="2019-09-12")
+    loop_number = 10
+    for i in range(0, loop_number):
+        runner = RunnerFactory()
+        race = HistoricalRaceFactory(distance=10, start_date="2019-09-11")
+        HistoricalRaceResultFactory.create_batch(
+            size=20, runner=runner, historical_race=race
+        )
+        PredictionRaceResultFactory(runner=runner, prediction_race=prediction_race)
+
+        runner2 = RunnerFactory()
+        race2 = HistoricalRaceFactory(distance=60, start_date="2019-09-11")
+        HistoricalRaceResultFactory.create_batch(
+            size=20, runner=runner, historical_race=race2
+        )
+        PredictionRaceResultFactory(runner=runner2, prediction_race=prediction_race)
+    prediction_race.refresh_from_db()
+    assert prediction_race.runners_with_best_count(distance=10) == loop_number
+    assert prediction_race.runners_with_best_count(distance=60) == loop_number
+    assert prediction_race.runners_with_best_count(distance=5) == 0
+
