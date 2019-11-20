@@ -127,3 +127,9 @@ def test_runner_age_during_race(db):
     result.refresh_from_db()
     assert result.runner_age_during_race == 39
 
+
+def test_month_of_the_race(db):
+    race = PredictionRaceFactory(start_date="2019-12-11")
+    race.refresh_from_db()
+    assert race.month_of_the_race == "December"
+

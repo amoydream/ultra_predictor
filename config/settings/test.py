@@ -54,3 +54,4 @@ ELASTICSEARCH_DSL = {
         'hosts': 'elasticsearch_test:9200'
     },
 }
+ELASTICSEARCH_DSL_AUTOSYNC = False

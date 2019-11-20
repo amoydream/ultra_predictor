@@ -92,6 +92,10 @@ class PredictionRace(DefaultModel):
 
         return results
 
+    @property
+    def month_of_the_race(self):
+        return self.start_date.strftime("%B")
+
     def __str__(self):
         return self.name
 

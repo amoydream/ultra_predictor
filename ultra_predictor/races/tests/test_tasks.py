@@ -3,7 +3,11 @@ import pytest
 from celery.result import EagerResult
 from celery import chain
 from .factories import PredictionRaceFactory, RunnerFactory, PredictionRaceResultFactory
-from ..tasks import process_itra_download, fetch_enduhub_runner_download, process_endu_download
+from ..tasks import (
+    process_itra_download,
+    fetch_enduhub_runner_download,
+    process_endu_download,
+)
 from ..extras.itra_result_parser import ItraRaceResultsParser
 
 
