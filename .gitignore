@@ -278,3 +278,5 @@ ultra_predictor/media/
 .envs/*
 !.envs/.local/
 .vscode
+
+/backups
