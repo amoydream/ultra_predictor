@@ -64,19 +64,30 @@ def fetch_year_and_save_results(self, result, race_id):
     )
     itra_parser = ItraRunnerProfileParser(itra_birth.get_data())
     with transaction.atomic():
-        runner, _ = Runner.objects.get_or_create(
+        runner, runner_created = Runner.objects.get_or_create(
             first_name=result["first_name"],
             last_name=result["last_name"],
             sex=result["sex"],
             nationality=result["nationality"],
             birth_year=itra_parser.birth_year,
         )
-        result, _ = PredictionRaceResult.objects.get_or_create(
+        result, result_created = PredictionRaceResult.objects.get_or_create(
             runner=runner,
             prediction_race=prediction_race,
             time_result=result["time_result"],
             position=result["position"],
         )
+        logger.info(
+            "{} Runner: {}".format(
+                "Added:" if runner_created else "already exists:", runner
+            )
+        )
+        logger.info(
+            "{} PredictionRaceResult: {}".format(
+                "Added:" if result_created else "already exists:", result
+            )
+        )
+
     return "ok"
 
 
@@ -97,17 +108,28 @@ def fetch_enduhub_runner_download(self, runner_id):
 
     for result in all_results:
         with transaction.atomic():
-            historical_race, _ = HistoricalRace.objects.get_or_create(
+            historical_race, race_created = HistoricalRace.objects.get_or_create(
                 name=result["race_name"],
                 start_date=result["start_date"],
                 distance=result["distance"],
                 race_type=result["race_type"],
             )
 
-            hist_result, _ = HistoricalRaceResult.objects.get_or_create(
+            logger.info(
+                "{} HistoricalRace: {}".format(
+                    "Added:" if race_created else "already exists:", historical_race
+                )
+            )
+
+            hist_result, result_created = HistoricalRaceResult.objects.get_or_create(
                 runner=runner,
                 historical_race=historical_race,
                 time_result=result["time_result"],
+            )
+            logger.info(
+                "{} HistoricalRaceResult: {}".format(
+                    "Added:" if result_created else "already exists:", hist_result
+                )
             )
 
     return "ok"
