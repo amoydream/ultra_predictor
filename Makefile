@@ -1,6 +1,9 @@
 enter:
 	docker-compose -f local.yml run --rm django sh
 
+jup:
+	docker-compose -f local.yml run --rm jupyter sh
+
 test:
 	docker-compose -f local.yml run --rm django pytest 
 cov:

@@ -72,8 +72,8 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "django_celery_beat",
     "knox",  #
-    'bootstrap_pagination',
-    
+    "bootstrap_pagination",
+    "django_elasticsearch_dsl",
 ]
 
 
