@@ -78,7 +78,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "ultra_predictor.users.apps.UsersConfig",
-    "ultra_predictor.races.apps.RacesConfig"
+    "ultra_predictor.races.apps.RacesConfig",
+    "ultra_predictor.api_account.apps.ApiAccountConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -277,9 +278,13 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = "username"
+
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -288,9 +293,15 @@ ACCOUNT_ADAPTER = "ultra_predictor.users.adapters.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "ultra_predictor.users.adapters.SocialAccountAdapter"
 
 
+
+
+
+
+
+
 # Your stuff...
 # ------------------------------------------------------------------------------
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication')
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
 }

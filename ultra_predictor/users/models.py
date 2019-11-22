@@ -1,15 +1,41 @@
-from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
+from django.conf import settings
 from ultra_predictor.core.models import DefaultModel
-from django.db.models import CharField
-from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
 
 
-class User(AbstractUser, DefaultModel):
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        """Creates and saves new User"""
+        if not email:
+            raise ValueError("Users must have an email")
+        user = self.model(email=self.normalize_email(email), **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-    # First Name and Last Name do not cover name patterns
-    # around the globe.
-    name = CharField(_("Name of User"), blank=True, max_length=255)
+    def create_superuser(self, email, password):
+        """Create and save new super user"""
+        user = self.create_user(email, password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
 
-    def get_absolute_url(self):
-        return reverse("users:detail", kwargs={"username": self.username})
+        return user
+
+
+class User(AbstractBaseUser, DefaultModel, PermissionsMixin):
+    """Custom user model that suports using email instead username"""
+
+    email = models.EmailField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = "email"
