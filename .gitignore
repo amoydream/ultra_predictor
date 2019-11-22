@@ -280,3 +280,4 @@ ultra_predictor/media/
 .vscode
 
 /backups
+/research/.cache
