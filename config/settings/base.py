@@ -70,8 +70,11 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "rest_framework",
     "django_celery_beat",
-    'bootstrap_pagination',
+    "bootstrap_pagination",
+    "knox"
 ]
+
+
 
 LOCAL_APPS = [
     "ultra_predictor.users.apps.UsersConfig",
@@ -287,3 +290,7 @@ SOCIALACCOUNT_ADAPTER = "ultra_predictor.users.adapters.SocialAccountAdapter"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication')
+}
