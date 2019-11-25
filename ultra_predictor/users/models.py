@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -6,6 +7,7 @@ from django.contrib.auth.models import (
 )
 from django.conf import settings
 from ultra_predictor.core.models import DefaultModel
+
 
 
 class UserManager(BaseUserManager):
@@ -18,7 +20,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, password, *args, **extra_fields ):
         """Create and save new super user"""
         user = self.create_user(email, password)
         user.is_staff = True
@@ -39,3 +41,5 @@ class User(AbstractBaseUser, DefaultModel, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
+    def get_absolute_url(self):
+        return reverse("users:detail", kwargs={"id": self.id})

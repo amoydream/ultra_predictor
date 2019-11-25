@@ -24,10 +24,10 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["name"]
 
     def get_success_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
+        return reverse("users:detail", kwargs={"id": self.request.user.id})
 
     def get_object(self):
-        return User.objects.get(username=self.request.user.username)
+        return User.objects.get(pk=self.request.user.id)
 
     def form_valid(self, form):
         messages.add_message(
