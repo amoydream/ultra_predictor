@@ -27,7 +27,8 @@ class RunnerAdmin(admin.ModelAdmin):
     pass
 
 class EventAdmin(admin.ModelAdmin):
-    pass
+    inlines = [PredictionRaceInline]
+
 
 
 
