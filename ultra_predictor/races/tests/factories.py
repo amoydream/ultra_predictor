@@ -10,6 +10,7 @@ from factory import (
 
 
 from ultra_predictor.races.models import (
+    Event,
     PredictionRaceGroup,
     PredictionRace,
     Runner,
@@ -19,10 +20,22 @@ from ultra_predictor.races.models import (
 )
 
 
+class EventFactory(DjangoModelFactory):
+
+    name = Sequence(lambda n: f"event_{n}")
+    start_date = Faker("date")
+    end_date = Faker("date")
+    future_event = False
+
+    class Meta:
+        model = Event
+        django_get_or_create = ["name"]
+
+
 class PredictionRaceGroupFactory(DjangoModelFactory):
 
     name = Faker("name")
-
+    event = SubFactory(EventFactory)
     class Meta:
         model = PredictionRaceGroup
         django_get_or_create = ["name"]
@@ -37,6 +50,7 @@ class PredictionRaceFactory(DjangoModelFactory):
     itra = 3
     itra_race_id = 12934
     food_point = 3
+    future_event = False
     time_limit = Decimal("9.5")
     prediction_race_group = SubFactory(PredictionRaceGroupFactory)
 
