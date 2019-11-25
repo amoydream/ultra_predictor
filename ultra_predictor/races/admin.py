@@ -26,6 +26,11 @@ class PredictionRaceGroupAdmin(admin.ModelAdmin):
 class RunnerAdmin(admin.ModelAdmin):
     pass
 
+class EventAdmin(admin.ModelAdmin):
+    pass
+
+
+
 
 class PredictionRaceAdmin(admin.ModelAdmin):
     list_display = (
@@ -67,3 +72,4 @@ admin.site.register(models.PredictionRaceResult, PredictionRaceResultsAdmin)
 admin.site.register(models.HistoricalRace, HistoricalRaceAdmin)
 admin.site.register(models.HistoricalRaceResult, HistoricalRaceResultsAdmin)
 
+admin.site.register(models.Event, EventAdmin)
