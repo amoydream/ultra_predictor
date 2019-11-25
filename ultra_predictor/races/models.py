@@ -4,8 +4,24 @@ from ultra_predictor.core.models import DefaultModel
 from django.core.validators import MinValueValidator
 
 
+class Event(DefaultModel):
+    name = models.CharField(max_length=255)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    future_event = models.BooleanField(default=False)
+    def __str__(self):
+        return self.name
+
+
 class PredictionRaceGroup(DefaultModel):
     name = models.CharField(max_length=255)
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name="prediction_race_groups",
+        null=True,
+        blank=True,
+    )
 
     def get_absolute_url(self):
         return reverse("prediction-group-detailed", kwargs={"pk": self.pk})
@@ -47,11 +63,11 @@ class PredictionRace(DefaultModel):
         null=True,
         blank=True,
     )
-
+    future_event = models.BooleanField(default=False)
     elevation_gain = models.PositiveIntegerField()
     elevation_lost = models.PositiveIntegerField()
     itra = models.PositiveIntegerField()
-    itra_race_id = models.PositiveIntegerField()
+    itra_race_id = models.PositiveIntegerField(null=True, blank=True)
     food_point = models.PositiveIntegerField()
     time_limit = models.DecimalField(max_digits=10, decimal_places=1)
     itra_download_status = models.CharField(
@@ -71,7 +87,7 @@ class PredictionRace(DefaultModel):
             .distinct("runner")
             .count()
         )
-        
+
         return results
 
     def __str__(self):
