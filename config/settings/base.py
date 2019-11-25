@@ -68,12 +68,12 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.facebook",
     "rest_framework",
     "django_celery_beat",
     "bootstrap_pagination",
-    "knox"
+    "knox",  #
 ]
-
 
 
 LOCAL_APPS = [
@@ -283,7 +283,7 @@ ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
@@ -293,15 +293,26 @@ ACCOUNT_ADAPTER = "ultra_predictor.users.adapters.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "ultra_predictor.users.adapters.SocialAccountAdapter"
 
 
-
-
-
-
-
-
 # Your stuff...
 # ------------------------------------------------------------------------------
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
+REST_FRAMEWORK = {"DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",)}
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    "facebook": {
+        "FIELDS": [
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+        ]
+    }
 }
+
+
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.facebook.FacebookOAuth2",
+    # and maybe some others ...
+    "django.contrib.auth.backends.ModelBackend",
+)
