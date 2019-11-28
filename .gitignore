@@ -281,3 +281,4 @@ ultra_predictor/media/
 
 /backups
 /research/.cache
+/research/.local/*

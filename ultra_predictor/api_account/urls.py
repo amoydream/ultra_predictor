@@ -6,6 +6,6 @@ app_name = "api_account"
 urlpatterns = [
     path("api/auth", include("knox.urls")),
     path("api/auth/register", RegisterAPI.as_view(),  name="register"),
-    path("api/auth/login", LoginAPI.as_view(),  name="register"),
+    path("api/auth/login", LoginAPI.as_view(),  name="login"),
 ]
 

@@ -9,13 +9,13 @@ class Event(DefaultModel):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     future_event = models.BooleanField(default=False)
+
     def __str__(self):
         return self.name
 
 
 class PredictionRaceGroup(DefaultModel):
     name = models.CharField(max_length=255)
-    
 
     def get_absolute_url(self):
         return reverse("prediction-group-detailed", kwargs={"pk": self.pk})
@@ -60,11 +60,11 @@ class PredictionRace(DefaultModel):
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
-        related_name="prediction_race_groups",
+        related_name="prediction_races",
         null=True,
         blank=True,
     )
-    
+
     elevation_gain = models.PositiveIntegerField()
     elevation_lost = models.PositiveIntegerField()
     itra = models.PositiveIntegerField()
