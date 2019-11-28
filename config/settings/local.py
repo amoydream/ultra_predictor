@@ -70,3 +70,6 @@ DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": show_toolbar}
 
 ELASTICSEARCH_DSL = {"default": {"hosts": "elasticsearch:9200"}}
 
+
+CORS_ORIGIN_WHITELIST = ["http://localhost:3001"]
+

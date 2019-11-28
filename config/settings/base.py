@@ -74,6 +74,7 @@ THIRD_PARTY_APPS = [
     "knox",  #
     "bootstrap_pagination",
     "django_elasticsearch_dsl",
+    "corsheaders",
 ]
 
 
@@ -129,6 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -301,14 +304,7 @@ REST_FRAMEWORK = {"DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthenticat
 
 
 SOCIALACCOUNT_PROVIDERS = {
-    "facebook": {
-        "FIELDS": [
-            "id",
-            "email",
-            "first_name",
-            "last_name",
-        ]
-    }
+    "facebook": {"FIELDS": ["id", "email", "first_name", "last_name"]}
 }
 
 
