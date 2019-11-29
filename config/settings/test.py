@@ -49,9 +49,5 @@ EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'elasticsearch_test:9200'
-    },
-}
+ELASTICSEARCH_DSL = {"default": {"hosts": "elasticsearch_test:9200"}}
 ELASTICSEARCH_DSL_AUTOSYNC = False
