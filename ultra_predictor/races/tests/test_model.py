@@ -119,10 +119,9 @@ def test_time_result_in_hours(time_result, hours, db):
     pr.refresh_from_db()
     assert pr.time_result_in_hours == Decimal(hours)
 
-
 def test_runner_age_during_race(db):
     runner = RunnerFactory(birth_year=1980)
-    race = PredictionRaceFactory(start_date="2019-11-11")
+    race = PredictionRaceFactory(start_date = "2019-11-11")
     result = PredictionRaceResultFactory(runner=runner, prediction_race=race)
     result.refresh_from_db()
     assert result.runner_age_during_race == 39

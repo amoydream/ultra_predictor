@@ -38,4 +38,3 @@ class RaceResult(Document):
     class Django:
         model = models.PredictionRaceResult
 
-
