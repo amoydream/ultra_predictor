@@ -64,6 +64,7 @@ DJANGO_APPS = [
     "django.contrib.admin",
 ]
 THIRD_PARTY_APPS = [
+    "corsheaders",
     "crispy_forms",
     "allauth",
     "allauth.account",
@@ -74,7 +75,6 @@ THIRD_PARTY_APPS = [
     "knox",
     "bootstrap_pagination",
     "django_elasticsearch_dsl",
-    "corsheaders",
 ]
 
 
@@ -313,3 +313,6 @@ AUTHENTICATION_BACKENDS = (
     # and maybe some others ...
     "django.contrib.auth.backends.ModelBackend",
 )
+
+
+#CORS_ORIGIN_ALLOW_ALL = True

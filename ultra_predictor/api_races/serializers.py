@@ -6,6 +6,7 @@ class PredictionRaceSerilazer(serializers.ModelSerializer):
     class Meta:
         model = PredictionRace
         fields = [
+            "id",
             "name",
             "start_date",
             "distance",
@@ -18,9 +19,11 @@ class PredictionRaceSerilazer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-    prediction_races = PredictionRaceSerilazer(many=True, read_only=True)
+    races = PredictionRaceSerilazer(
+        many=True, read_only=True, source="prediction_races"
+    )
 
     class Meta:
         model = Event
-        fields = ["name", "start_date", "end_date", "prediction_races"]
+        fields = ["id","name", "start_date", "end_date", "races"]
 

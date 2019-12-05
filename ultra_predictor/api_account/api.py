@@ -33,7 +33,7 @@ class LoginAPI(generics.GenericAPIView):
             _, token = AuthToken.objects.create(user)
             return Response(
                 {
-                    "user": UserSerializer(
+                    "user_info": UserSerializer(
                         user, context=self.get_renderer_context()
                     ).data,
                     "token": token,
