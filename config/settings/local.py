@@ -72,4 +72,3 @@ ELASTICSEARCH_DSL = {"default": {"hosts": "elasticsearch:9200"}}
 
 
 CORS_ORIGIN_WHITELIST = ["http://localhost:3001"]
-
