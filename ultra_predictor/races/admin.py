@@ -58,8 +58,8 @@ class PredictionRaceAdmin(admin.ModelAdmin):
     def download_enduhub(self, request, queryset):
         queryset.update(itra_download_status="R")
         for race in queryset:
-            task = process_endu_download(race.id)
-            task.delay()
+            process_endu_download(race.id)
+            
 
     download_enduhub.short_description = "Download data from Enduhub"
 
