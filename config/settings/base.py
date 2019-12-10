@@ -81,7 +81,10 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "ultra_predictor.users.apps.UsersConfig",
     "ultra_predictor.races.apps.RacesConfig",
+    "ultra_predictor.race_predictions.apps.RacePredictionsConfig",
     "ultra_predictor.api_account.apps.ApiAccountConfig",
+    "ultra_predictor.api_races.apps.ApiRacesConfig",
+    "ultra_predictor.api_predictions.apps.ApiPredictionsConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -315,4 +318,5 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-#CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
+

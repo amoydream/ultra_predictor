@@ -18,6 +18,7 @@ urlpatterns = [
     path("races/", include("ultra_predictor.races.urls")),
     path('', include("ultra_predictor.api_account.urls")),
     path('', include("ultra_predictor.api_races.urls")),
+    path('', include("ultra_predictor.api_predictions.urls")),
     path('api/login/', include('rest_social_auth.urls_knox')),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

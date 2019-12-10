@@ -16,4 +16,4 @@ def test_create_user_api_endpoint(db):
         {"username": "john", "email": "test@mojek.pl", "password": "django123456"},
     )
     
-    assert request.status_code, status.HTTP_201_CREATED
+    assert request.status_code == status.HTTP_201_CREATED

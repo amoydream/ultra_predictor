@@ -18,7 +18,7 @@ class RegisterAPI(generics.GenericAPIView):
                         user, context=self.get_renderer_context()
                     ).data,
                     "token": token,
-                }
+                }, 201
             )
 
 

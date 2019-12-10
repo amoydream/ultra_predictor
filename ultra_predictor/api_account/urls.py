@@ -9,4 +9,3 @@ urlpatterns = [
     path("api/auth/login", LoginAPI.as_view(), name="login"),
     path("api/auth/user", UserAPI.as_view(), name="user"),
 ]
-
