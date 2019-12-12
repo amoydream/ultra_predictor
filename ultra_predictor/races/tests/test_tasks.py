@@ -1,4 +1,5 @@
 from unittest.mock import patch
+from os import path
 import pytest
 from celery.result import EagerResult
 from celery import chain
@@ -7,7 +8,9 @@ from ..tasks import (
     process_itra_download,
     fetch_enduhub_runner_download,
     process_endu_download,
+    process_csv_files,
 )
+import shutil
 from ..extras.itra_result_parser import ItraRaceResultsParser
 
 
@@ -61,4 +64,18 @@ def test_task_enduhub_process(settings):
     result = PredictionRaceResultFactory()
     race = result.prediction_race
     process_endu_download.delay(race.id)
+
+
+@pytest.mark.django_db
+def test_task_process_csv_files(settings):
+    settings.CELERY_TASK_ALWAYS_EAGER = True
+    settings.FOLDER_FOR_CSV = 'prediction_csv_test_task'
+    result = PredictionRaceResultFactory()
+    race = result.prediction_race
+    group = race.prediction_race_group
+    process_csv_files.delay(group.id)
+    assert path.exists(
+        f"{settings.FOLDER_FOR_CSV}/{settings.CSV_FILE_PREDICTION_GROUP_NAME_TEMPLATE}{group.id}.csv"
+    )
+    shutil.rmtree(settings.FOLDER_FOR_CSV)
 

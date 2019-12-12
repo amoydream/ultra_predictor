@@ -51,3 +51,7 @@ EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 # ------------------------------------------------------------------------------
 ELASTICSEARCH_DSL = {"default": {"hosts": "elasticsearch_test:9200"}}
 ELASTICSEARCH_DSL_AUTOSYNC = False
+
+
+
+FOLDER_FOR_CSV = "prediction_csv_tests"

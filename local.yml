@@ -131,6 +131,7 @@ services:
     restart: unless-stopped
     volumes: 
     - ./research:/home/jovyan
+    - ./prediction_csv:/home/jovyan/prediction_csv
     ports:
       - 8888:8888
  

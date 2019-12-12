@@ -2,14 +2,14 @@ import logging
 from celery import chain, group, chord
 from config import celery_app
 from django.db import transaction
-from .models import PredictionRace
+from .models import PredictionRace, PredictionRaceGroup
 from .extras.itra_result_fetcher import ItraRaceResultFetcher
 from .extras.itra_runner_birth_fetcher import ItraRunnerBirthFetcher
 from .extras.itra_result_parser import ItraRaceResultsParser, ItraRunnerProfileParser
 from .extras.enduhub_fetcher import EnduhubFetcher
 from .extras.enduhub_parser import EnduhubParser
 from .models import PredictionRaceResult, Runner, HistoricalRaceResult, HistoricalRace
-
+from ultra_predictor.csv_generator.extras.csv_generator import CsvGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +40,16 @@ def process_endu_download(race_id):
         fetch_enduhub_runner_download.s(runner.id)
         for runner in prediction_race.runners.all()
     )()
+
+@celery_app.task()
+def process_csv_files(group_id):
+    prediction_race_group = PredictionRaceGroup.objects.get(pk=group_id)
+    CsvGenerator(group=prediction_race_group)
+
+@celery_app.task()
+def process_csv_file_for_all():
+    CsvGenerator()
+
 
 
 @celery_app.task(bind=True, default_retry_delay=60, max_retries=120)

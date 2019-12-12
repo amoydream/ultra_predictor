@@ -35,7 +35,7 @@ class EventFactory(DjangoModelFactory):
 class PredictionRaceGroupFactory(DjangoModelFactory):
 
     name = Faker("name")
-    
+
     class Meta:
         model = PredictionRaceGroup
         django_get_or_create = ["name"]
@@ -43,7 +43,7 @@ class PredictionRaceGroupFactory(DjangoModelFactory):
 
 class PredictionRaceFactory(DjangoModelFactory):
     name = Faker("name")
-    start_date = Faker("date")
+    start_date = Faker("date_between", start_date="-2y", end_date="-1y")
     distance = Decimal("64.4")
     elevation_gain = 1300
     elevation_lost = 1300
@@ -64,6 +64,7 @@ class RunnerFactory(DjangoModelFactory):
     first_name = Sequence(lambda n: f"runner_first_name_{n}")
     last_name = Sequence(lambda n: f"runner_last_name_{n}")
     birth_year = Faker("random_int", min=1965, max=2000)
+    sex = Faker("random_element", elements=("w", "m"))
     nationality = Faker("country")
 
     class Meta:
@@ -84,7 +85,7 @@ class PredictionRaceResultFactory(DjangoModelFactory):
 
 class HistoricalRaceFactory(DjangoModelFactory):
     name = Faker("name")
-    start_date = Faker("date")
+    start_date = Faker("date_between", start_date="-30y", end_date="-1y")
     distance = Decimal("64.4")
 
     class Meta:
