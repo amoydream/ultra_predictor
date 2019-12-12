@@ -48,7 +48,7 @@ COPY . /app
 
 RUN chown -R django /app
 
-USER django
+USER user
 
 WORKDIR /app
 
