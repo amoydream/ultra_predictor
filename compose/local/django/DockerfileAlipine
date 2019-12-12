@@ -1,0 +1,95 @@
+FROM python:3.7.5-alpine
+
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN apk update \
+  # psycopg2 dependencies
+  && apk add --virtual build-deps gcc python3-dev musl-dev \
+  && apk add postgresql-dev \
+  # Pillow dependencies
+  && apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev \
+  # CFFI dependencies
+  && apk add libffi-dev py-cffi \
+  # Translations dependencies
+  && apk add gettext 
+  # https://docs.djangoproject.com/en/dev/ref/django-admin/#dbshell
+RUN pip install --upgrade cython
+ENV PACKAGES="\
+    dumb-init \
+    musl \
+    libc6-compat \
+    linux-headers \
+    build-base \
+    bash \
+    git \
+    ca-certificates \
+    freetype \
+    libgfortran \
+    libgcc \
+    libstdc++ \
+    openblas \
+    tcl \
+    tk \
+    libssl1.0 \
+    "
+ 
+ENV PYTHON_PACKAGES="\
+    numpy \
+    matplotlib \
+    scipy \
+    scikit-learn \
+    nltk \
+    "
+
+
+RUN apk add --no-cache --virtual build-dependencies python3 \
+    && apk add --virtual build-runtime build-base python3-dev openblas-dev freetype-dev pkgconfig gfortran \
+    && ln -s /usr/include/locale.h /usr/include/xlocale.h \
+    && python3 -m ensurepip \
+    && rm -r /usr/lib/python*/ensurepip \
+    && pip3 install --upgrade pip setuptools \
+    && ln -sf /usr/bin/python3 /usr/bin/python \
+    && ln -sf pip3 /usr/bin/pip \
+    && rm -r /root/.cache \
+    && pip install --no-cache-dir $PYTHON_PACKAGES \
+    && pip3 install 'pandas<0.21.0' \
+    && apk add --no-cache --virtual build-dependencies $PACKAGES \
+    && rm -rf /var/cache/apk/*
+
+
+RUN apk add --no-cache postgresql-dev libffi-dev libressl-dev libxml2 libxml2-dev libxslt libxslt-dev libjpeg-turbo-dev zlib-dev     
+
+# Requirements are installed here to ensure they will be cached.
+COPY ./requirements /requirements
+
+#RUN pip install numpy
+RUN pip install -r /requirements/local.txt
+
+COPY ./compose/production/django/entrypoint /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint
+RUN chmod +x /entrypoint
+
+COPY ./compose/local/django/start /start
+RUN sed -i 's/\r$//g' /start
+RUN chmod +x /start
+
+COPY ./compose/local/django/celery/worker/start /start-celeryworker
+RUN sed -i 's/\r$//g' /start-celeryworker
+RUN chmod +x /start-celeryworker
+
+COPY ./compose/local/django/celery/beat/start /start-celerybeat
+RUN sed -i 's/\r$//g' /start-celerybeat
+RUN chmod +x /start-celerybeat
+
+COPY ./compose/local/django/celery/flower/start /start-flower
+RUN sed -i 's/\r$//g' /start-flower
+RUN chmod +x /start-flower
+
+WORKDIR /app
+
+RUN adduser -D user
+USER user
+
+ENTRYPOINT ["/entrypoint"]
