@@ -22,7 +22,7 @@ services:
       - ./.envs/.production/.postgres
     command: /start
     volumes:
-      - production_prediction_csv:/app/prediction_csv
+      - production_prediction_csv:/app/prediction_csv_two
     
     
 

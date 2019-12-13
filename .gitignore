@@ -283,3 +283,4 @@ ultra_predictor/media/
 /research/.cache
 /research/.local/*
 /prediction_csv/*
+/prediction_csv_two

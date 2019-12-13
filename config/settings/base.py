@@ -320,6 +320,6 @@ AUTHENTICATION_BACKENDS = (
 
 # CORS_ORIGIN_ALLOW_ALL = True
 
-FOLDER_FOR_CSV = "prediction_csv"
+FOLDER_FOR_CSV = "prediction_csv_two"
 CSV_FILE_PREDICTION_GROUP_NAME_TEMPLATE = "prediction_group_race_results_"
 CSV_FILE_ALL_NAME_TEMPLATE = "prediction_all"
