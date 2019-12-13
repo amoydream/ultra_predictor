@@ -33,7 +33,11 @@ class PredictionRaceGroup(DefaultModel):
             .prefetch_related("runner")
             .order_by("position")
         )
-
+    
+    @property
+    def exists_file_csv(self):
+        from os import path
+        return path.exists('prediction_csv/prediction_all.csv')
 
 class PredictionRace(DefaultModel):
     UNREADY = "U"
