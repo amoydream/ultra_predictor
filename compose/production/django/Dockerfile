@@ -15,8 +15,8 @@ ENV PYTHONUNBUFFERED 1
 # RUN addgroup -S django \
 #     && adduser -S -G django django
 
-RUN adduser  django
-RUN usermod -a -G django django
+# RUN adduser  django
+# RUN usermod -a -G django django
 
 
 
@@ -50,8 +50,8 @@ RUN sed -i 's/\r$//g' /start-flower
 RUN chmod +x /start-flower
 COPY . /app
 
-RUN chown -R django /app
-
+RUN adduser  django
+RUN usermod -a -G django django
 USER django
 
 WORKDIR /app
