@@ -4,6 +4,7 @@ volumes:
   production_postgres_data: {}
   production_postgres_data_backups: {}
   production_traefik: {}
+  production_prediction_csv: {}
 
 services:
   django: &django
@@ -18,6 +19,9 @@ services:
       - ./.envs/.production/.django
       - ./.envs/.production/.postgres
     command: /start
+    
+    volumes: 
+      - ./prediction_csv:/prediction_csv
 
   postgres:
     build:
