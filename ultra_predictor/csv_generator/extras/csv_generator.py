@@ -50,7 +50,7 @@ class CsvGenerator:
             results = PredictionRaceResult.objects.all()
         try:
             with open(self.filepath, mode="w+") as group_file:
-                logger.info("Created file {}".format(self.filepath))
+                logger.info("Created file {} abs: {}".format(self.filepath, os.path.abspath(self.filepath)))
                 group_writer = csv.writer(
                     group_file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
                 )
