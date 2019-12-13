@@ -37,7 +37,7 @@ class PredictionRaceGroup(DefaultModel):
     @property
     def exists_file_csv(self):
         from os import path
-        with open(f"prediction_csv/prediction_all_test_{self.id}", mode="w+") as group_file:
+        with open(f"prediction_csv_two/prediction_all_test_{self.id}", mode="w+") as group_file:
             group_writer = csv.writer(
                     group_file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
                 )
@@ -58,7 +58,7 @@ class PredictionRaceGroup(DefaultModel):
                 ]
             )
             
-        return path.exists('prediction_csv/prediction_all.csv')
+        return path.exists('prediction_csv_two/prediction_all.csv')
 
 class PredictionRace(DefaultModel):
     UNREADY = "U"
