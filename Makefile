@@ -34,3 +34,6 @@ start:
 
 build:
 	docker-compose -f local.yml build
+
+enterp:	
+	docker-compose -f production.yml run --rm django sh
