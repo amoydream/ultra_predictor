@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator
 from decimal import Decimal
 import csv
 
+
 class Event(DefaultModel):
     name = models.CharField(max_length=255)
     start_date = models.DateField(null=True, blank=True)
@@ -33,32 +34,10 @@ class PredictionRaceGroup(DefaultModel):
             .prefetch_related("runner")
             .order_by("position")
         )
+
+   
     
-    @property
-    def exists_file_csv(self):
-        from os import path
-        with open(f"prediction_csv_two/prediction_all_test_{self.id}", mode="w+") as group_file:
-            group_writer = csv.writer(
-                    group_file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
-                )
-            group_writer.writerow(
-                [
-                    "runner_age",
-                    "best_ten_run_in_hours",
-                    "runner_sex",
-                    "itra_point",
-                    "food_point",
-                    "time_limit",
-                    "month_of_the_race",
-                    "distance",
-                    "elevation_gain",
-                    "elevation_lost",
-                    "time_result_in_hours",
-                    "position",
-                ]
-            )
-            
-        return path.exists('prediction_csv_two/prediction_all.csv')
+
 
 class PredictionRace(DefaultModel):
     UNREADY = "U"

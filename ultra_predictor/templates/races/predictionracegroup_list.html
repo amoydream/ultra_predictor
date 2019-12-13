@@ -11,7 +11,7 @@
     {% for pr_race_group in prediction_race_groups_list %}
     <div class="card mb-2">
       <div class="card-header">
-        <b>{{pr_race_group.name}} {{pr_race_group.exists_file_csv}}</b>
+        <b>{{pr_race_group.name}}</b>
         <a href="{% url 'races:prediction-group-detailed' pr_race_group.pk%}">See all results</a>
       </div>
       <ul class="list-group list-group-flush">
