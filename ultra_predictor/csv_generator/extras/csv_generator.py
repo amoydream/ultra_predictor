@@ -27,7 +27,7 @@ class CsvGenerator:
         try:
             os.makedirs(self.path, exist_ok=True)
             logger.info("Creating folder {}".format(self.path))
-        except Exception as e:
+        except IOError as e:
             logger.error(
                 "Error creating folder: {} with error {}".format(self.path, e.message)
             )
@@ -50,7 +50,6 @@ class CsvGenerator:
             results = PredictionRaceResult.objects.all()
         try:
             with open(self.filepath, mode="w+") as group_file:
-                logger.info("Created file {} abs: {}".format(self.filepath, os.path.abspath(self.filepath)))
                 group_writer = csv.writer(
                     group_file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
                 )
@@ -95,7 +94,8 @@ class CsvGenerator:
                             result.position,
                         ]
                     )
-        except Exception as e:
+                logger.info("Created file {} abs: {}".format(self.filepath, os.path.abspath(self.filepath)))
+        except IOError as e:
             logger.error(
                 "Error creating file: {} with error {}".format(self.filepath, e.message)
             )
