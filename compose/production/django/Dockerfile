@@ -19,7 +19,8 @@ ENV PYTHONUNBUFFERED 1
 # RUN usermod -a -G django django
 
 
-
+RUN adduser  django
+RUN usermod -a -G django django
 
 # Requirements are installed here to ensure they will be cached.
 COPY ./requirements /requirements
@@ -50,8 +51,7 @@ RUN sed -i 's/\r$//g' /start-flower
 RUN chmod +x /start-flower
 COPY . /app
 
-RUN adduser  django
-RUN usermod -a -G django django
+
 USER django
 
 WORKDIR /app
