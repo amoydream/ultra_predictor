@@ -21,7 +21,7 @@ services:
     command: /start
     
     volumes: 
-      - ./prediction_csv:/prediction_csv
+      - ./prediction_csv:/app/prediction_csv
 
   postgres:
     build:
