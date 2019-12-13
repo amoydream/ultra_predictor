@@ -50,7 +50,7 @@ COPY ./compose/production/django/celery/flower/start /start-flower
 RUN sed -i 's/\r$//g' /start-flower
 RUN chmod +x /start-flower
 COPY . /app
-
+RUN chown -R django:django /app
 
 USER django
 
