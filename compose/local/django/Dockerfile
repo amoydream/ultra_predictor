@@ -45,7 +45,8 @@ RUN chmod +x /start-flower
 
 WORKDIR /app
 
-RUN useradd -ms /bin/bash user
-USER user
+RUN adduser  django
+RUN usermod -a -G django django
+USER django
 
 ENTRYPOINT ["/entrypoint"]

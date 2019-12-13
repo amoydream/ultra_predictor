@@ -14,7 +14,11 @@ ENV PYTHONUNBUFFERED 1
 
 # RUN addgroup -S django \
 #     && adduser -S -G django django
-RUN useradd -ms /bin/bash django
+
+RUN adduser  django
+RUN usermod -a -G django django
+
+
 
 
 # Requirements are installed here to ensure they will be cached.
