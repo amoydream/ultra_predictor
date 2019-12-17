@@ -54,4 +54,4 @@ ELASTICSEARCH_DSL_AUTOSYNC = False
 
 
 
-FOLDER_FOR_CSV = "prediction_csv_tests"
+PREDICTION_ML_FOLDER = "prediction_csv_tests"

@@ -69,13 +69,13 @@ def test_task_enduhub_process(settings):
 @pytest.mark.django_db
 def test_task_process_csv_files(settings):
     settings.CELERY_TASK_ALWAYS_EAGER = True
-    settings.FOLDER_FOR_CSV = 'prediction_csv_test_task'
+    settings.PREDICTION_ML_FOLDER = 'prediction_csv_test_task'
     result = PredictionRaceResultFactory()
     race = result.prediction_race
     group = race.prediction_race_group
     process_csv_files.delay(group.id)
     assert path.exists(
-        f"{settings.FOLDER_FOR_CSV}/{settings.CSV_FILE_PREDICTION_GROUP_NAME_TEMPLATE}{group.id}.csv"
+        f"{settings.PREDICTION_ML_FOLDER}/{settings.CSV_FILE_PREDICTION_GROUP_NAME_TEMPLATE}{group.id}.csv"
     )
-    shutil.rmtree(settings.FOLDER_FOR_CSV)
+    shutil.rmtree(settings.PREDICTION_ML_FOLDER)
 

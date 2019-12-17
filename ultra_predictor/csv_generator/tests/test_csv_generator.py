@@ -31,7 +31,7 @@ class TestCsvCreator(TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        shutil.rmtree(settings.FOLDER_FOR_CSV)
+        shutil.rmtree(settings.PREDICTION_ML_FOLDER)
 
     def test_csv_creation_init(self):
         group = PredictionRaceGroup.objects.first()

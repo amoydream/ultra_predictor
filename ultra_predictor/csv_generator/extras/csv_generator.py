@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class CsvGenerator:
     def __init__(self, **kwargs):
         self.group = kwargs.get("group")
-        self.path = kwargs.get("path", settings.FOLDER_FOR_CSV)
+        self.path = kwargs.get("path", settings.PREDICTION_ML_FOLDER)
         if self.group and not isinstance(self.group, PredictionRaceGroup):
             raise ValueError("Group should by PredictionRaceGroup class")
         self.filepath = None

@@ -18,6 +18,5 @@ class PredictionSerializer(serializers.ModelSerializer):
             "predicted",
             "prediction_time",
         ]
-        read_only_fields = ["id", "user" ,"prediction_time", "predicted"]
-        
+        read_only_fields = ["id", "user", "prediction_time", "predicted"]
 
