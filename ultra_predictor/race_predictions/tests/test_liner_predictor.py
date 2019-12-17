@@ -6,9 +6,9 @@ from ultra_predictor.race_predictions.extras.prediction_data_preparation import 
     PredictionDataPreparation,
 )
 
-CURRENT_APP_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 from unittest.mock import patch
+
+CURRENT_APP_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class TestLinearPredictor(TestCase):

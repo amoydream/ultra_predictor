@@ -45,4 +45,4 @@ class PredictionDataPreparation:
         return df
 
     def sex_dict(self):
-        return {"W": [int(self.sex == "W")], "M": [int(self.sex == "M")]}
+        return {"W": [int(self.sex == "w")], "M": [int(self.sex == "m")]}

@@ -31,6 +31,7 @@ class LinearPredictor:
         prediction = self.model.predict(predictor)
 
         return float(list(prediction)[0][0])
+        
 
     def model_was_created(self):
         return os.path.exists(
@@ -48,7 +49,7 @@ class LinearPredictor:
         )
 
     def load_file(self):
-        file = f"/{settings.PREDICTION_ML_FOLDER}/{settings.CSV_FILE_ALL_NAME_TEMPLATE}.csv"
+        file = f"{settings.PREDICTION_ML_FOLDER}/{settings.CSV_FILE_ALL_NAME_TEMPLATE}.csv"
         return file
 
     def preprocessing(self):

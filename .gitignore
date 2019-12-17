@@ -285,3 +285,4 @@ ultra_predictor/media/
 /prediction_csv
 /prediction_csv_tests
 /prediction_csv_two
+/prediction_*
