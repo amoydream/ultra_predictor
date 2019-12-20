@@ -12,12 +12,12 @@ class RaceResult(Document):
     runner_sex = fields.StringField(attr="runner.sex")
     # race info
     itra_point = fields.IntegerField(attr="prediction_race.itra")
-    food_point = fields.IntegerField(attr="prediction_race.food_point")
-    time_limit = fields.IntegerField(attr="prediction_race.time_limit")
+    refreshment_points = fields.IntegerField(attr="prediction_race.refreshment_points")
+    max_time = fields.IntegerField(attr="prediction_race.max_time")
     month_of_the_race = fields.StringField(attr="prediction_race.month_of_the_race")
     distance = fields.StringField(attr="prediction_race.distance")
-    elevation_gain = fields.StringField(attr="prediction_race.elevation_gain")
-    elevation_lost = fields.StringField(attr="prediction_race.elevation_lost")
+    ascent = fields.StringField(attr="prediction_race.ascent")
+    descent = fields.StringField(attr="prediction_race.descent")
     # result info
     time_result_in_hours = fields.DoubleField(attr="time_result_in_hours")
     position = fields.IntegerField(attr="position")

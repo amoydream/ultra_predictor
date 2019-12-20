@@ -6,7 +6,14 @@ volumes:
   elasticsearch-data:
     driver: local
 
+    
 services:
+  crawler:
+    build:
+      context: .
+      dockerfile: ./crawler/Dockerfile
+    volumes:
+      - ./crawler:/crawler    
   django: &django
     restart: unless-stopped
     build:

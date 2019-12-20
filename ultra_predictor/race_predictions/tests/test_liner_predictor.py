@@ -49,10 +49,10 @@ class TestLinearPredictor(TestCase):
             distance=64.1,
             runner_age=38,
             itra_point=2,
-            food_point=4,
-            time_limit=14,
-            elevation_gain=2740,
-            elevation_lost=2590,
+            refreshment_points=4,
+            max_time=14,
+            ascent=2740,
+            descent=2590,
         )
         load_file.return_value = self.file_path
         predictor = LinearPredictor()

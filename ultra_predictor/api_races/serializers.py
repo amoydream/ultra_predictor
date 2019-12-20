@@ -8,13 +8,29 @@ class PredictionRaceSerilazer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
-            "start_date",
+            "itra_event_id",
+            "itra_race_id",
+            "itra_point",
+            "mount_point",
+            "finish_point",
+            "map_link",
+            "participation",
+            "sentiers",
+            "pistes",
+            "routes",
+            "challenge",
+            "championship",
+            "country_start",
+            "city_start",
+            "country_finish",
+            "city_finish",
             "distance",
-            "elevation_gain",
-            "elevation_lost",
-            "itra",
-            "food_point",
-            "time_limit",
+            "race_date",
+            "race_time",
+            "ascent",
+            "descent",
+            "refreshment_points",
+            "max_time",
         ]
 
 
@@ -25,5 +41,5 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ["id", "name", "start_date", "end_date", "races"]
+        fields = ["id", "name", "year", "itra_id", "races"]
 

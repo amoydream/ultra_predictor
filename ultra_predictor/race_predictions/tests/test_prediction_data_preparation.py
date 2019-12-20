@@ -13,15 +13,15 @@ class TestPredictor(TestCase):
             month="April",
             runner_age=30,
             itra_point=3,
-            food_point=3,
-            time_limit=10.3,
-            elevation_gain=1000,
-            elevation_lost=1000,
+            refreshment_points=3,
+            max_time=10.3,
+            ascent=1000,
+            descent=1000,
         )
         assert isinstance(predictor, PredictionDataPreparation)
         assert isinstance(predictor.to_dataframe(), pd.DataFrame)
         df = predictor.to_dataframe()
 
-        assert df["elevation_gain"][0] == predictor.elevation_gain
+        assert df["ascent"][0] == predictor.ascent
         assert df["April"][0] == 1
         assert df["January"][0] == 0

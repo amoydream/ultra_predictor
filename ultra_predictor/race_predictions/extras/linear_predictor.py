@@ -28,6 +28,7 @@ class LinearPredictor:
             self.create_model()
         self.load_model()
         predictor = predictor.to_dataframe()[list(self.columns)]
+        
         prediction = self.model.predict(predictor)
 
         return float(list(prediction)[0][0])
@@ -75,11 +76,11 @@ class LinearPredictor:
                 "best_ten_run_in_hours",
                 "runner_age",
                 "itra_point",
-                "food_point",
-                "time_limit",
+                "refreshment_points",
+                "max_time",
                 "distance",
-                "elevation_gain",
-                "elevation_lost",
+                "ascent",
+                "descent",
             ]
         ]
         y = df[["time_result_in_hours"]]

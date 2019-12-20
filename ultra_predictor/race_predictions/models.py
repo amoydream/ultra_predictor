@@ -31,7 +31,7 @@ class RacePrediction(DefaultModel):
 
     @property
     def runner_age_during_race(self):
-        return self.race.start_date.year - self.birth_year
+        return self.race.race_date.year - self.birth_year
 
     def save(self, *args, **kwargs):
         self.predicted = True
@@ -46,11 +46,11 @@ class RacePrediction(DefaultModel):
             month=self.race.month_of_the_race,
             distance=self.race.distance,
             runner_age=self.runner_age_during_race,
-            itra_point=self.race.itra,
-            food_point=self.race.food_point,
-            time_limit=self.race.time_limit,
-            elevation_gain=self.race.elevation_gain,
-            elevation_lost=self.race.elevation_lost,
+            itra_point=self.race.itra_point,
+            refreshment_points=self.race.refreshment_points,
+            max_time=self.race.max_time.seconds / 3600,
+            ascent=self.race.ascent,
+            descent=self.race.descent,
         )
         predictor = LinearPredictor()
         result = predictor.prediction(prediction_data)

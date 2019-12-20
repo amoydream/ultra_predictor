@@ -79,7 +79,7 @@ def test_runner_best_results_on_10_km_before_prediction_race(db):
         time_result="0:52:00",
         historical_race=HistoricalRaceFactory(distance=10, start_date="2019-08-11"),
     )
-    prediction_race = PredictionRaceFactory(start_date="2019-09-12")
+    prediction_race = PredictionRaceFactory(race_date="2019-09-12")
     pred_race_result = PredictionRaceResultFactory(
         runner=runner, prediction_race=prediction_race
     )
@@ -88,7 +88,7 @@ def test_runner_best_results_on_10_km_before_prediction_race(db):
 
 
 def test_runners_with_best_count(db):
-    prediction_race = PredictionRaceFactory(start_date="2019-09-12")
+    prediction_race = PredictionRaceFactory(race_date="2019-09-12")
     loop_number = 10
     for i in range(0, loop_number):
         runner = RunnerFactory()
@@ -121,14 +121,14 @@ def test_time_result_in_hours(time_result, hours, db):
 
 def test_runner_age_during_race(db):
     runner = RunnerFactory(birth_year=1980)
-    race = PredictionRaceFactory(start_date = "2019-11-11")
+    race = PredictionRaceFactory(race_date = "2019-11-11")
     result = PredictionRaceResultFactory(runner=runner, prediction_race=race)
     result.refresh_from_db()
     assert result.runner_age_during_race == 39
 
 
 def test_month_of_the_race(db):
-    race = PredictionRaceFactory(start_date="2019-12-11")
+    race = PredictionRaceFactory(race_date="2019-12-11")
     race.refresh_from_db()
     assert race.month_of_the_race == "December"
 

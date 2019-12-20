@@ -19,10 +19,10 @@
         <li class="list-group-item">
           {{pr_race.name}} <br>
           <small>
-            {{pr_race.elevation_gain}}+/{{pr_race.elevation_lost}}- |
-            ITRA points: {{pr_race.itra}} |
-            food points: {{pr_race.food_point}} |
-            time limit: {{pr_race.time_limit}}h 
+            {{pr_race.ascent}}+/{{pr_race.descent}}- |
+            ITRA points: {{pr_race.itra_point}} |
+            food points: {{pr_race.refreshment_points}} |
+            time limit: {{pr_race.max_time}}h 
             | Results {{pr_race.prediction_race_results.count}}
             | Runners with best 10km {% runners_with_best_count pr_race 10 %}
             | Runners with best marathon {% runners_with_best_count pr_race 42.1 %}

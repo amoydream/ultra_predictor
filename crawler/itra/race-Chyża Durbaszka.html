@@ -1,0 +1,89 @@
+			<div id="calevt_titre">
+								<div><a href="javascript:fermer();" class="close"></a></div>
+				<div>
+										<a href="#" class="follow"  onclick="alert('You have to be member if you want to follow an event.');return false;">Follow<span></span></a>
+											<a  href="https://www.facebook.com/BiegiwSzczawnicy" target="_blank" class="facebook" title="See this event on Facebook"></a>
+												<a style="border-left:1px solid white;padding-left:5px;" href="http://www.biegiwszczawnicy.pl" target="_blank" class="web" title="Website of this event"></a>
+										</div>
+				Biegi W Szczawnicy 2019			</div>
+			<div id="calevt_lst">
+								<div class="tit">The races</div>
+									<div>
+						<a href="#" class="" onclick="showEvt('124', '2019', '2533'); return false;">Niepokorny Mnich</a>
+													<span class="icon pts4"></span> &nbsp;
+							<span class="icon mont5">5</span> &nbsp; 							<span class="icon finish400">470</span> &nbsp; 												</div>
+										<div>
+						<a href="#" class="" onclick="showEvt('124', '2019', '11307'); return false;">Dziki Groń</a>
+													<span class="icon pts3"></span> &nbsp;
+							<span class="icon mont6">6</span> &nbsp; 							<span class="icon finish380">390</span> &nbsp; 												</div>
+										<div>
+						<a href="#" class="" onclick="showEvt('124', '2019', '2898'); return false;">Wielka Prehyba</a>
+													<span class="icon pts2"></span> &nbsp;
+							<span class="icon mont5">5</span> &nbsp; 							<span class="icon finish320">330</span> &nbsp; 												</div>
+										<div>
+						<a href="#" class="sel" onclick="showEvt('124', '2019', '11477'); return false;">Chyża Durbaszka</a>
+													<span class="icon pts1"></span> &nbsp;
+							<span class="icon mont5">5</span> &nbsp; 							<span class="icon finish300">250</span> &nbsp; 												</div>
+										<div>
+						<a href="#" class="" onclick="showEvt('124', '2019', '17873'); return false;">Hardy Rolling</a>
+													<span class="icon pts0">0</span> &nbsp;
+							<span class="icon mont5">5</span> &nbsp; 							<span class="icon finish300">220</span> &nbsp; 												</div>
+								</div>
+			<div id="calevt_fich">
+									<div id="race-container" class="noimg">
+						<div id="btl_caltit"></div>
+						<div id="btl_caltit2"></div>
+						<h2 class="calrace_titre">
+															<div style="float:right">
+									<span class="iconBig pts1"></span> &nbsp;
+									<span class="iconBig mont5">5</span> &nbsp; 									<span class="iconBig finish300">250</span> &nbsp; 								</div>
+															Chyża Durbaszka						</h2>
+					</div>
+																	<iframe scrolling="no" marginheight="0" marginwidth="0" frameborder="0" src="https://tracedetrail.fr/en/trace/itra/78687" webkitallowfullscreen mozallowfullscreen allowfullscreen class="noimg"/>
+											<div class="content noimg">
+													Description							<p>Esencja Pienin, otwarte przestrzenie, wąskie ścieżki, widoki na Tatry i owce na wypasie.</p>
+														Description in English							<p>The essence of Pieniny mountains, open spaces, narrow trails, views of Tatras and sheep grazing.</p>
+													<table>
+							<tr><td>Participation</td><td>solo</td></tr>
+															<tr><td colspan="2" style="text-align:center">70% sentiers / 20% pistes / 10% routes</td></tr>
+															<tr><td>Challenge</td><td>N/A</td></tr>
+							<tr><td>Championship</td><td>N/A</td></tr>
+														<tr><td colspan="2"></td></tr>
+														<tr><td>Date and time of start</td><td>27 April 2019 11:00</td></tr>
+							<tr><td>Location of start</td><td>Jaworki (Poland)</td></tr>
+							<tr><td>Location of finish</td><td>Szczawnica (Poland)</td></tr>
+							<tr><td>Distance</td><td>20km  (12.4miles)</td></tr>
+							<tr><td>Ascent</td><td>860m</td></tr>
+							<tr><td>Descent</td><td>980m</td></tr>
+							<tr><td>Refreshment points</td><td>1</td></tr>
+															<tr><td>Maximum time</td><td>05:00</td></tr>
+														</table>
+						<br/>
+					</div>
+					<script type="text/javascript">
+						$(function() {
+							var curscroll=$(document).scrollTop();
+							$('body,html').stop(true,true).animate({scrollTop:320}, 'slow');
+													});
+						
+						function follow() {
+							$.post("/espace_membres.php", "mode=follow&ide=124", function(res) {
+								eval(res);
+							});
+						}
+						function unFollow() {
+							$.post("/espace_membres.php", "mode=delFollow&ide=124", function(res) {
+								eval(res);
+							});
+						}
+						function fermer() {
+							top.history.back();
+													}
+					</script>
+								</div>
+			<script type="text/javascript">
+				$(function() {
+					setTimeout("$('#calevt_fich').css({minHeight:parseInt($('#calevt_lst').height())+25});", 200);
+									});
+			</script>
+			

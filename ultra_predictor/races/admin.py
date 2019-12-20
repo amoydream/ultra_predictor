@@ -48,19 +48,26 @@ class RunnerAdmin(admin.ModelAdmin):
 
 
 class EventAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "year",
+        "itra_id"
+      
+    )
     inlines = [PredictionRaceInline]
 
 
 class PredictionRaceAdmin(admin.ModelAdmin):
     list_display = (
         "name",
-        "start_date",
+        "race_date",
         "distance",
-        "elevation_gain",
-        "elevation_lost",
-        "itra",
-        "food_point",
-        "time_limit",
+        "ascent",
+        "descent",
+        "itra_point",
+        "refreshment_points",
+        "max_time",
+        "country_start",
         "itra_download_status",
     )
     actions = [("download_itra"), ("download_enduhub")]

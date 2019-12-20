@@ -1,4 +1,4 @@
-runner_age,best_ten_run_in_hours,runner_sex,itra_point,food_point,time_limit,month_of_the_race,distance,elevation_gain,elevation_lost,time_result_in_hours,position
+runner_age,best_ten_run_in_hours,runner_sex,itra_point,refreshment_points,max_time,month_of_the_race,distance,ascent,descent,time_result_in_hours,position
 26,,M,2,3,9.0,April,43.50,1925,1925,3.28,1
 29,0.52,M,2,3,9.0,April,43.50,1925,1925,3.44,2
 26,0.55,M,2,3,9.0,April,43.50,1925,1925,3.56,3

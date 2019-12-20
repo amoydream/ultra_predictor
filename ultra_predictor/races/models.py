@@ -8,12 +8,15 @@ import csv
 
 class Event(DefaultModel):
     name = models.CharField(max_length=255)
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
     future_event = models.BooleanField(default=False)
+    year = models.IntegerField(null=True, blank=True)
+    itra_id = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        unique_together = ["name", "year"]
 
 
 class PredictionRaceGroup(DefaultModel):
@@ -35,9 +38,6 @@ class PredictionRaceGroup(DefaultModel):
             .order_by("position")
         )
 
-   
-    
-
 
 class PredictionRace(DefaultModel):
     UNREADY = "U"
@@ -52,8 +52,17 @@ class PredictionRace(DefaultModel):
         (COMPLETED, "Completed"),
         (FAILURE, "Failure"),
     )
+
+    class Meta:
+        unique_together = ["itra_race_id", "race_date"]
+
     name = models.CharField(max_length=256)
-    start_date = models.DateField()
+    itra_event_id = models.IntegerField(null=True, blank=True)
+    itra_race_id = models.PositiveIntegerField(null=True, blank=True)
+    itra_race_event_id = models.PositiveIntegerField(null=True, blank=True)
+
+    race_date = models.DateField(null=True, blank=True)
+    race_time = models.TimeField(null=True, blank=True)
     distance = models.DecimalField(max_digits=6, decimal_places=2)
     prediction_race_group = models.ForeignKey(
         PredictionRaceGroup,
@@ -70,12 +79,24 @@ class PredictionRace(DefaultModel):
         blank=True,
     )
 
-    elevation_gain = models.PositiveIntegerField()
-    elevation_lost = models.PositiveIntegerField()
-    itra = models.PositiveIntegerField()
-    itra_race_id = models.PositiveIntegerField(null=True, blank=True)
-    food_point = models.PositiveIntegerField()
-    time_limit = models.DecimalField(max_digits=10, decimal_places=1)
+    ascent = models.PositiveIntegerField(null=True, blank=True)
+    descent = models.PositiveIntegerField(null=True, blank=True)
+    itra_point = models.PositiveIntegerField(null=True, blank=True)
+    mount_point = models.PositiveIntegerField(null=True, blank=True)
+    finish_point = models.PositiveIntegerField(null=True, blank=True)
+    map_link = models.CharField(max_length=256, null=True, blank=True)
+    participation = models.CharField(max_length=256, null=True, blank=True)
+    refreshment_points = models.PositiveIntegerField(null=True, blank=True)
+    sentiers = models.PositiveIntegerField(null=True, blank=True)
+    pistes = models.PositiveIntegerField(null=True, blank=True)
+    routes = models.PositiveIntegerField(null=True, blank=True)
+    challenge = models.CharField(max_length=256, null=True, blank=True)
+    championship = models.CharField(max_length=256, null=True, blank=True)
+    country_start = models.CharField(max_length=256, null=True, blank=True)
+    city_start = models.CharField(max_length=256, null=True, blank=True)
+    country_finish = models.CharField(max_length=256, null=True, blank=True)
+    city_finish = models.CharField(max_length=256, null=True, blank=True)
+    max_time = models.DurationField(null=True, blank=True)
     itra_download_status = models.CharField(
         max_length=1, choices=ITRA_DOWNLOAD_STATUSES, default=UNREADY
     )
@@ -87,7 +108,7 @@ class PredictionRace(DefaultModel):
         results = (
             HistoricalRaceResult.objects.filter(
                 runner__in=self.runners.all(),
-                historical_race__start_date__lte=self.start_date,
+                historical_race__start_date__lte=self.race_date,
                 historical_race__distance=distance,
             )
             .distinct("runner")
@@ -98,7 +119,7 @@ class PredictionRace(DefaultModel):
 
     @property
     def month_of_the_race(self):
-        return self.start_date.strftime("%B")
+        return self.race_date.strftime("%B")
 
     def __str__(self):
         return self.name
@@ -153,7 +174,7 @@ class PredictionRaceResult(DefaultModel):
     @property
     def best_10km_run_before_prediction_race(self):
         return self.runner.historical_race_results.filter(
-            historical_race__start_date__lte=self.prediction_race.start_date,
+            historical_race__start_date__lte=self.prediction_race.race_date,
             historical_race__distance=10,
         ).aggregate(models.Min("time_result"))["time_result__min"]
 
@@ -164,7 +185,7 @@ class PredictionRaceResult(DefaultModel):
 
     @property
     def runner_age_during_race(self):
-        return self.prediction_race.start_date.year - self.runner.birth_year
+        return self.prediction_race.race_date.year - self.runner.birth_year
 
     def __str__(self):
         return f"{self.runner.name}, {self.prediction_race.name}, {self.time_result}"

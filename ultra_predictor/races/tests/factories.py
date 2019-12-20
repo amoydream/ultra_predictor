@@ -23,13 +23,13 @@ from ultra_predictor.races.models import (
 class EventFactory(DjangoModelFactory):
 
     name = Sequence(lambda n: f"event_{n}")
-    start_date = Faker("date")
-    end_date = Faker("date")
+    year = Faker("random_int", min=2015, max=2019)
+    itra_id = Faker("random_int", min=1, max=1000)
     future_event = False
 
     class Meta:
         model = Event
-        django_get_or_create = ["name"]
+        django_get_or_create = ["name", "year"]
 
 
 class PredictionRaceGroupFactory(DjangoModelFactory):
@@ -43,15 +43,31 @@ class PredictionRaceGroupFactory(DjangoModelFactory):
 
 class PredictionRaceFactory(DjangoModelFactory):
     name = Faker("name")
-    start_date = Faker("date_between", start_date="-2y", end_date="-1y")
-    distance = Decimal("64.4")
-    elevation_gain = 1300
-    elevation_lost = 1300
-    itra = 3
-    itra_race_id = 12934
-    food_point = 3
+    itra_event_id = Faker("random_int", min=1, max=1000)
+    itra_race_id = Faker("random_int", min=1, max=1000)
+    itra_point = Faker("random_int", min=1, max=5)
+    mount_point = Faker("random_int", min=1, max=5)
+    finish_point = Faker("random_int", min=1, max=5)
+    map_link = Faker("uri")
+    participation = "solo"
+    sentiers = Faker("random_int", min=1, max=100)
+    pistes = Faker("random_int", min=1, max=100)
+    routes = Faker("random_int", min=1, max=100)
+    challenge = Faker("name")
+    championship = Faker("name")
+    country_start = Faker("country")
+    city_start = Faker("city")
+    country_finish = Faker("country")
+    city_finish = Faker("city")
+    race_date = Faker("date_between", start_date="-2y", end_date="-1y")
+    race_time = Faker("time_object")
+    distance = Faker("random_int", min=65, max=100)
+    ascent = Faker("random_int", min=1000, max=4000)
+    descent = Faker("random_int", min=1000, max=4000)
+
+    refreshment_points = Faker("random_int", min=1, max=5)
     event = SubFactory(EventFactory)
-    time_limit = Decimal("9.5")
+    max_time = Faker("time_delta", end_datetime=1)
     prediction_race_group = SubFactory(PredictionRaceGroupFactory)
 
     class Meta:
