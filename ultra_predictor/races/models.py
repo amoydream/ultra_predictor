@@ -13,7 +13,7 @@ class Event(DefaultModel):
     itra_id = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.year} {self.itra_id} "
 
     class Meta:
         unique_together = ["name", "year"]
@@ -122,7 +122,7 @@ class PredictionRace(DefaultModel):
         return self.race_date.strftime("%B")
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 
 class HistoricalRace(DefaultModel):

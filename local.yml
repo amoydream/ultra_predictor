@@ -13,7 +13,9 @@ services:
       context: .
       dockerfile: ./crawler/Dockerfile
     volumes:
-      - ./crawler:/crawler    
+      - ./crawler:/crawler
+    env_file:
+      - ./.envs/.crawler     
   django: &django
     restart: unless-stopped
     build:

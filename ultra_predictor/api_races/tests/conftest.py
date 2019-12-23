@@ -4,13 +4,28 @@ from ultra_predictor.races.tests.factories import PredictionRaceFactory
 
 
 @pytest.fixture
+def race_result_payload():
+    return dict(
+        first_name="Michał",
+        last_name="Mojek",
+        time_result="10:00:00",
+        position=2,
+        sex="m",
+        nationality="Poland",
+        birth_year=1980,
+        itra_race_id=2,
+        itra_runner_id=10,
+    )
+
+
+@pytest.fixture
 def event_payload():
     return dict(name="Wielka prehyba", year=2019, itra_id="123")
 
 
 @pytest.fixture
 def race_payload():
-    pred_race = PredictionRaceFactory(event=None)
+    pred_race = PredictionRaceFactory.build(event=None)
     keys_i_want = [
         "name",
         "itra_event_id",

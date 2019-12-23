@@ -2,3 +2,4 @@ Scrapy==1.8.0 #https://pypi.org/project/Scrapy/
 beautifulsoup4==4.8.1  #https://pypi.org/project/beautifulsoup4/
 python-dateutil==2.8.1 #https://pypi.org/project/python-dateutil/
 requests==2.22.0 #https://pypi.org/project/requests/
+sentry-sdk==0.13.5

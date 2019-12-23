@@ -1,7 +1,15 @@
 from rest_framework import serializers
-from ultra_predictor.races.models import Event, PredictionRace
+from ultra_predictor.races.models import Event, PredictionRace, PredictionRaceResult
 
-
+class PredictionRaceResultSerilazer(serializers.ModelSerializer):
+    class Meta:
+        model = PredictionRaceResult
+        fields = [
+            
+            "time_result",
+            "position",
+            "prediction_race"
+        ]
 class PredictionRaceSerilazer(serializers.ModelSerializer):
     class Meta:
         model = PredictionRace
@@ -10,6 +18,7 @@ class PredictionRaceSerilazer(serializers.ModelSerializer):
             "name",
             "itra_event_id",
             "itra_race_id",
+            "itra_race_event_id",
             "itra_point",
             "mount_point",
             "finish_point",

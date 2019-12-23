@@ -8,6 +8,11 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import os
+import sentry_sdk
+
+
+sentry_sdk.init(os.environ["SENTRY_DSN"])
 
 BOT_NAME = "itra"
 
@@ -86,6 +91,6 @@ ITEM_PIPELINES = {"itra.pipelines.ItraPipeline": 300}
 # HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-LOG_FILE = "log.txt"
-LOG_LEVEL = "ERROR"
+#LOG_FILE = "log.txt"
+#LOG_LEVEL = "ERROR"
 
