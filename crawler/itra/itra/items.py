@@ -52,3 +52,4 @@ class RaceResult(scrapy.Item):
     birth_year =  scrapy.Field()
     itra_race_id = scrapy.Field()
     itra_runner_id = scrapy.Field()
+    itra_race_year = scrapy.Field()

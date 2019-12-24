@@ -7,7 +7,7 @@ from .tasks import process_itra_download, process_endu_download, process_csv_fil
 
 class PredictionRaceInline(admin.TabularInline):
     model = models.PredictionRace
-
+    
 
 class PredictionRaceResultsAdmin(admin.ModelAdmin):
     model = models.PredictionRaceResult

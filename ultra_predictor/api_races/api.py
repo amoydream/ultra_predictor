@@ -63,26 +63,10 @@ class RaceResultAPI(generics.ListCreateAPIView):
         return self.list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        result = request.data
-        runner, runner_created = Runner.objects.get_or_create(
-            first_name=result["first_name"],
-            last_name=result["last_name"],
-            sex=result["sex"],
-            nationality=result["nationality"],
-            birth_year=result["birth_year"],
-        )
-        race = PredictionRace.objects.get(
-            itra_race_id=result["itra_race_id"]
-        )
-        race_results = PredictionRaceResult.objects.get_or_create(
-            runner=runner, prediction_race=race,
-            time_result=result["time_result"],
-            position=result["position"],
-        )
         
-        response = PredictionRaceResultSerilazer(race_results)
-        breakpoint()
-        # your custom implementation goes here
-
-        return Response(response.data)  # `response
+        serializer = PredictionRaceResultSerilazer(data=request.data)
+        
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(data=serializer.data, status=201)
 

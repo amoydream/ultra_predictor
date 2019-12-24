@@ -20,8 +20,8 @@ class ItraSpider(scrapy.Spider):
     def start_requests(self):
         urls = []
         year = 2019
-        # for ids in range(1, 1000):
-        for ids in [639]:
+        for ids in range(1, 20000):
+        #for ids in [639]:
             urls.append(
                 (
                     f"https://itra.run/calend.php?id={ids}",
@@ -240,7 +240,7 @@ class ItraSpider(scrapy.Spider):
         race["refreshment_points"] = refreshment_points
         race["max_time"] = max_time
 
-        yield race
+        
         logger.info(f"Found race: {race}")
 
         page = response.url.split("/")[-2]
@@ -310,10 +310,12 @@ class ItraSpider(scrapy.Spider):
             result = RaceResult()
             result["first_name"] = first_name
             result["last_name"] = last_name
-            result["time_result"] = time_result
-            result["position"] = position
+            if not position == "DNF":
+                result["time_result"] = time_result
+                result["position"] = position
             result["sex"] = sex
             result["nationality"] = nationality
+            result["itra_race_year"] = parser.parse(race["race_date"]).year
 
             # url, body = (
             #     f"https://itra.run/fiche.php",
@@ -344,7 +346,7 @@ class ItraSpider(scrapy.Spider):
             result["itra_runner_id"] = (
                 soup.select(".tit")[0].parent.get("id").split("run")[-1]
             )
-
+            yield result
         else:
             name = f"{result['first_name']} {result['last_name']}"
             correct_runners = soup.find_all(text=re.compile(f"^{name}$", re.IGNORECASE))
@@ -360,7 +362,7 @@ class ItraSpider(scrapy.Spider):
                     correct_runners[0].parent.parent.get("id").split("run")[-1]
                 )
                 # soup.find_all(text=re.compile(f"^{name}$", re.IGNORECASE))[1].parent.parent.find_all('div', {"class":"tit"})
-
+                yield result
             else:
                 # now we have more than one runner with the same name
                 # we have to parse another page, we need to find race on runner page
@@ -390,8 +392,9 @@ class ItraSpider(scrapy.Spider):
                             birth_year=birth_year,
                         ),
                     )
+                    
 
-        yield result
+        
 
     def parce_runner_page(self, response, result, race_name, runner_id, birth_year):
         soup = BeautifulSoup(response.body, "html.parser")
@@ -400,7 +403,8 @@ class ItraSpider(scrapy.Spider):
             result["birth_year"] = birth_year
             result["itra_runner_id"] = runner_id
             logger.info(response.request.body)
-            yield result
+            return result
+            
 
 
 def itra_name_extractor(name):

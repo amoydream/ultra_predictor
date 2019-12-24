@@ -64,21 +64,6 @@ class PredictionRace(DefaultModel):
     race_date = models.DateField(null=True, blank=True)
     race_time = models.TimeField(null=True, blank=True)
     distance = models.DecimalField(max_digits=6, decimal_places=2)
-    prediction_race_group = models.ForeignKey(
-        PredictionRaceGroup,
-        on_delete=models.CASCADE,
-        related_name="prediction_races",
-        null=True,
-        blank=True,
-    )
-    event = models.ForeignKey(
-        Event,
-        on_delete=models.CASCADE,
-        related_name="prediction_races",
-        null=True,
-        blank=True,
-    )
-
     ascent = models.PositiveIntegerField(null=True, blank=True)
     descent = models.PositiveIntegerField(null=True, blank=True)
     itra_point = models.PositiveIntegerField(null=True, blank=True)
@@ -97,13 +82,30 @@ class PredictionRace(DefaultModel):
     country_finish = models.CharField(max_length=256, null=True, blank=True)
     city_finish = models.CharField(max_length=256, null=True, blank=True)
     max_time = models.DurationField(null=True, blank=True)
+    
     itra_download_status = models.CharField(
         max_length=1, choices=ITRA_DOWNLOAD_STATUSES, default=UNREADY
     )
     runners = models.ManyToManyField(
-        "Runner", through="PredictionRaceResult", related_name="runners"
+        "Runner", through="PredictionRaceResult", related_name="prediction_races"
     )
 
+    prediction_race_group = models.ForeignKey(
+        PredictionRaceGroup,
+        on_delete=models.CASCADE,
+        related_name="prediction_races",
+        null=True,
+        blank=True,
+    )
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name="prediction_races",
+        null=True,
+        blank=True,
+    )
+ 
+   
     def runners_with_best_count(self, distance):
         results = (
             HistoricalRaceResult.objects.filter(
@@ -149,6 +151,7 @@ class Runner(DefaultModel):
     birth_year = models.PositiveSmallIntegerField(validators=[MinValueValidator(1900)])
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, default="o")
     nationality = models.CharField(max_length=100)
+    itra_runner_id = models.IntegerField(null=True, blank=True)
 
     class Meta:
         unique_together = ["first_name", "last_name", "birth_year"]
@@ -163,10 +166,10 @@ class Runner(DefaultModel):
 
 class PredictionRaceResult(DefaultModel):
     runner = models.ForeignKey(
-        Runner, on_delete=models.CASCADE, related_name="prediction_race_results"
+        Runner, on_delete=models.CASCADE, related_name="runners"
     )
-    time_result = models.DurationField()
-    position = models.PositiveSmallIntegerField()
+    time_result = models.DurationField(null=True, blank=True)
+    position = models.PositiveSmallIntegerField(null=True, blank=True)
     prediction_race = models.ForeignKey(
         PredictionRace, on_delete=models.CASCADE, related_name="prediction_race_results"
     )

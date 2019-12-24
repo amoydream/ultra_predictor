@@ -15,6 +15,7 @@ def race_result_payload():
         birth_year=1980,
         itra_race_id=2,
         itra_runner_id=10,
+        itra_race_year=2019,
     )
 
 
