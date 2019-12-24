@@ -27,7 +27,7 @@ class ItraPipeline(object):
 
         if isinstance(item, Event):
             req = requests.post(
-                "http://django:8000/api/events", headers=HEADERS, data=item
+                "https://predictor.mojek.pl/api/events", headers=HEADERS, data=item
             )
             try:
                 req.raise_for_status()
@@ -37,7 +37,7 @@ class ItraPipeline(object):
         if isinstance(item, Race):
             logger.info(f"------SAVING RACE------\n{item}")
             req = requests.post(
-                "http://django:8000/api/races", headers=HEADERS, data=item
+                "https://predictor.mojek.pl/api/races", headers=HEADERS, data=item
             )
             try:
                 req.raise_for_status()
@@ -46,7 +46,7 @@ class ItraPipeline(object):
         if isinstance(item, RaceResult):
             logger.info(f"------SAVING RACE RESULT------\n{item}")
             req = requests.post(
-                 "http://django:8000/api/race_results", headers=HEADERS, data=item
+                 "https://predictor.mojek.pl/api/race_results", headers=HEADERS, data=item
             )
             try:
                 req.raise_for_status()
