@@ -5,11 +5,12 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 import requests
+import os
 from .items import Event, RaceResult, Race
 import logging
-
+token = os.environ["CRAWLER_TOKEN"]
 HEADERS = {
-    "Authorization": "Token f95a3f0be021fd2560ceef330adea7b5e6e4cf169551b625ca9302fd45cad8c6"
+    "Authorization": f"Token {token}"
 }
 logger = logging.getLogger()
 

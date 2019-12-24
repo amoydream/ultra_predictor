@@ -8,6 +8,14 @@ volumes:
   
 
 services:
+  crawler:
+    build:
+      context: .
+      dockerfile: ./crawler/Dockerfile
+    volumes:
+      - ./crawler:/crawler
+    env_file:
+      - ./.envs/.crawler
   django: &django
     build:
       context: .

@@ -3,6 +3,10 @@ enter:
 
 crawl:
 	docker-compose -f local.yml run --rm crawler bash
+
+crawlp:
+	docker-compose -f production.yml run --rm crawler bash
+
 jup:
 	docker-compose -f local.yml run --rm jupyter sh
 
