@@ -16,7 +16,7 @@ class Event(DefaultModel):
         return f"{self.name} {self.year} {self.itra_id} "
 
     class Meta:
-        unique_together = ["name", "year"]
+        unique_together = ["name", "year", "itra_id"]
 
 
 class PredictionRaceGroup(DefaultModel):
@@ -154,7 +154,7 @@ class Runner(DefaultModel):
     itra_runner_id = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        unique_together = ["first_name", "last_name", "birth_year"]
+        unique_together = ["first_name", "last_name", "birth_year", "itra_runner_id"]
 
     def __str__(self):
         return f"{self.name}, {self.birth_year}"
