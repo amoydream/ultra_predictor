@@ -17,11 +17,16 @@ HEADERS = {
 class ItraSpider(scrapy.Spider):
     name = "itra"
 
+    def __init__(self, start_id=None, end_id=20000, *args, **kwargs):
+        self.start_id = start_id
+        self.end_id = end_id
+        super(ItraSpider, self).__init__(*args, **kwargs)
+
     def start_requests(self):
         urls = []
         year = 2019
-        for ids in range(1, 20000):
-        #for ids in [639]:
+        for ids in range(int(self.start_id), int(self.end_id)+1):
+            # for ids in [639]:
             urls.append(
                 (
                     f"https://itra.run/calend.php?id={ids}",
@@ -240,7 +245,6 @@ class ItraSpider(scrapy.Spider):
         race["refreshment_points"] = refreshment_points
         race["max_time"] = max_time
 
-        
         logger.info(f"Found race: {race}")
 
         page = response.url.split("/")[-2]
@@ -392,9 +396,6 @@ class ItraSpider(scrapy.Spider):
                             birth_year=birth_year,
                         ),
                     )
-                    
-
-        
 
     def parce_runner_page(self, response, result, race_name, runner_id, birth_year):
         soup = BeautifulSoup(response.body, "html.parser")
@@ -404,7 +405,6 @@ class ItraSpider(scrapy.Spider):
             result["itra_runner_id"] = runner_id
             logger.info(response.request.body)
             return result
-            
 
 
 def itra_name_extractor(name):
