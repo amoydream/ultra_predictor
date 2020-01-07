@@ -17,7 +17,7 @@ HEADERS = {
 class ItraSpider(scrapy.Spider):
     name = "itra"
 
-    def __init__(self, start_id=None, end_id=20000, year, *args, **kwargs):
+    def __init__(self, start_id=None, end_id=20000, year=2019, *args, **kwargs):
         self.start_id = start_id
         self.end_id = end_id
         self.year = year
