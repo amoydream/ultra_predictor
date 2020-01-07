@@ -2,12 +2,18 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import path
 from . import models
-from .tasks import process_itra_download, process_endu_download, process_csv_files, process_csv_file_for_all
+from .tasks import (
+    process_itra_download,
+    process_endu_download,
+    process_csv_files,
+    process_csv_file_for_all,
+)
 
 
 class PredictionRaceInline(admin.TabularInline):
+   
     model = models.PredictionRace
-    
+
 
 class PredictionRaceResultsAdmin(admin.ModelAdmin):
     model = models.PredictionRaceResult
@@ -48,16 +54,13 @@ class RunnerAdmin(admin.ModelAdmin):
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "year",
-        "itra_id"
-      
-    )
+    list_filter = ("year",)
+    list_display = ("name", "year", "itra_id")
     inlines = [PredictionRaceInline]
 
 
 class PredictionRaceAdmin(admin.ModelAdmin):
+    list_filter = ("country_start", "race_date", "distance", "itra_point")
     list_display = (
         "name",
         "race_date",

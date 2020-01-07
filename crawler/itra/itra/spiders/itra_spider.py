@@ -17,14 +17,15 @@ HEADERS = {
 class ItraSpider(scrapy.Spider):
     name = "itra"
 
-    def __init__(self, start_id=None, end_id=20000, *args, **kwargs):
+    def __init__(self, start_id=None, end_id=20000, year, *args, **kwargs):
         self.start_id = start_id
         self.end_id = end_id
+        self.year = year
         super(ItraSpider, self).__init__(*args, **kwargs)
 
     def start_requests(self):
         urls = []
-        year = 2019
+        year = self.year
         for ids in range(int(self.start_id), int(self.end_id)+1):
             # for ids in [639]:
             urls.append(
